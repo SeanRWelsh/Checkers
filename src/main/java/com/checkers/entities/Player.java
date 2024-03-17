@@ -1,37 +1,39 @@
-package com.checkers.model;
+package com.checkers.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Column;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
-public class User {
+@Table(name = "players")
+public class Player {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
+
+    @NotBlank(message = "Please enter a name.")
     @Size(max = 50)
     private String name;
     @Column(name = "user_name")
     @Size(max = 50)
     private String userName;
     @Email
-    @NotNull
     @Size(max = 80)
     private String email;
     @NotNull
+    @Positive
     private int wins;
     @NotNull
+    @Positive
     private int losses;
     @NotNull
+    @Positive
     private int moves;
 
-    public User(){}
+    public Player(){}
+
+    public Long getId() {
+        return id;
+    }
 
     public String getName(){return this.name;}
     public void setName(String name){this.name = name;}
