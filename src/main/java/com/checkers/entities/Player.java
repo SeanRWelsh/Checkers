@@ -2,6 +2,7 @@ package com.checkers.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
+import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Table(name = "players")
@@ -10,23 +11,27 @@ public class Player {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank(message = "Please enter a name.")
+    @NotBlank(message = "name cannot be blank.")
     @Size(max = 50)
     private String name;
     @Column(name = "user_name")
     @Size(max = 50)
     private String userName;
     @Email
+    @NotNull
     @Size(max = 80)
     private String email;
     @NotNull
-    @Positive
+    @PositiveOrZero
+    @ColumnDefault("0")
     private int wins;
     @NotNull
-    @Positive
+    @PositiveOrZero
+    @ColumnDefault("0")
     private int losses;
     @NotNull
-    @Positive
+    @PositiveOrZero
+    @ColumnDefault("0")
     private int moves;
 
     public Player(){}

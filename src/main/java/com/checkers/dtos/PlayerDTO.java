@@ -3,13 +3,14 @@ package com.checkers.dtos;
 import com.checkers.entities.Player;
 
 public class PlayerDTO {
-    final private Long id;
+    private Long id;
     private String name;
     private String userName;
     private int wins;
     private int losses;
     private int moves;
     private String email;
+    public PlayerDTO(){}
 
     public PlayerDTO(Player player){
         this.id = player.getId();
