@@ -22,21 +22,17 @@ public class PlayerController {
         this.playerRepository = playerRepository;
     }
 
-    @PostMapping
-    public ResponseEntity<PlayerDTO> signUp(@Valid @RequestBody Player player){
-        playerRepository.save((player));
-        return ResponseEntity.status(HttpStatus.CREATED).body(new PlayerDTO(player));
+    @GetMapping("/{id}")
+    public ResponseEntity<PlayerDTO> getPlayer(@PathVariable Long id){
+        Player player = playerRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Player with id " + id + " not found."));
+        return ResponseEntity.ok(new PlayerDTO(player));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> getPlayer(@PathVariable Long id){
-        try {
-            Optional<Player> playerToDelete = playerRepository.findById(id);
-            playerRepository.delete(playerToDelete.orElseThrow(IllegalArgumentException::new));
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }catch(IllegalArgumentException e){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Player with id " + id + " not found.", e);
-        }
+    @PostMapping
+    public ResponseEntity<PlayerDTO> signUp(@Valid @RequestBody Player player){
+        Player savedPlayer = playerRepository.save((player));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new PlayerDTO(savedPlayer));
     }
 
     @PatchMapping("/{id}")
@@ -44,6 +40,14 @@ public class PlayerController {
         Player updatedPlayer = playerRepository.patchPlayer(id, player);
         return ResponseEntity.ok(new PlayerDTO(updatedPlayer));
 
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePlayer(@PathVariable Long id){
+        Player playerToDelete = playerRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Player with id " + id + " not found."));
+        playerRepository.delete(playerToDelete);
+        return ResponseEntity.noContent().build();
     }
 
 
