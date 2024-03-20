@@ -1,4 +1,4 @@
-package com.checkers.entities;
+package com.checkers.models;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
@@ -17,6 +17,12 @@ public class Player {
     @Column(name = "user_name")
     @Size(max = 50)
     private String userName;
+
+    @NotNull
+    private String password;
+
+    @NotNull
+    private String roles;
     @Email
     @NotNull
     @Size(max = 80)
@@ -58,4 +64,19 @@ public class Player {
     public int getMoves(){return this.moves;}
     public void setMoves(int moves){this.moves = moves;}
 
+    public String getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String roles) {
+        this.roles = roles;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

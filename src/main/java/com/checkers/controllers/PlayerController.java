@@ -4,13 +4,13 @@ import com.checkers.dtos.PlayerDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import com.checkers.entities.Player;
+import com.checkers.models.Player;
 import com.checkers.repositories.PlayerRepository;
 import org.springframework.web.server.ResponseStatusException;
-
-import java.util.Optional;
 
 @RestController
 
@@ -31,6 +31,8 @@ public class PlayerController {
 
     @PostMapping
     public ResponseEntity<PlayerDTO> signUp(@Valid @RequestBody Player player){
+        PasswordEncoder encoder = new BCryptPasswordEncoder();
+        player.setPassword(encoder.encode(player.getPassword()));
         Player savedPlayer = playerRepository.save((player));
         return ResponseEntity.status(HttpStatus.CREATED).body(new PlayerDTO(savedPlayer));
     }

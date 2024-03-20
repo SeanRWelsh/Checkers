@@ -2,7 +2,7 @@ package com.checkers.repositories;
 
 import com.checkers.dtos.PlayerDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
-import com.checkers.entities.Player;
+import com.checkers.models.Player;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -20,5 +20,7 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
             }
         return null;
     }
+
+    Optional<Player> findByUserName(String userName);
 
 }

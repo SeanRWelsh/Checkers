@@ -1,6 +1,6 @@
 package com.checkers.dtos;
 
-import com.checkers.entities.Player;
+import com.checkers.models.Player;
 
 public class PlayerDTO {
     private Long id;
