@@ -5,7 +5,7 @@ import com.checkers.models.Player;
 public class PlayerDTO {
     private Long id;
     private String name;
-    private String userName;
+    private String username;
     private int wins;
     private int losses;
     private int moves;
@@ -18,7 +18,7 @@ public class PlayerDTO {
         this.wins = player.getWins();
         this.losses = player.getLosses();
         this.moves = player.getMoves();
-        this.userName = player.getUserName();
+        this.username = player.getUsername();
         this.email = player.getEmail();
     }
 
@@ -29,8 +29,8 @@ public class PlayerDTO {
     public String getName(){return this.name;}
     public void setName(String name){this.name = name;}
 
-    public String getUserName(){return this.userName;}
-    public void setUserName(String userName){this.userName = userName;}
+    public String getUsername(){return this.username;}
+    public void setUsername(String username){this.username = username;}
 
     public String getEmail(){return this.email;}
     public void setEmail(String email){this.email = email;}

@@ -16,7 +16,7 @@ public class Player {
     private String name;
     @Column(name = "user_name")
     @Size(max = 50)
-    private String userName;
+    private String username;
 
     @NotNull
     private String password;
@@ -49,8 +49,8 @@ public class Player {
     public String getName(){return this.name;}
     public void setName(String name){this.name = name;}
 
-    public String getUserName(){return this.userName;}
-    public void setUserName(String userName){this.userName = userName;}
+    public String getUsername(){return this.username;}
+    public void setUsername(String username){this.username = username;}
 
     public String getEmail(){return this.email;}
     public void setEmail(String email){this.email = email;}

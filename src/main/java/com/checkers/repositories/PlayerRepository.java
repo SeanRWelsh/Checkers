@@ -15,12 +15,12 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
                     Player playerToUpdate = optionalPlayer.get();
                     if (playerDTO.getName() != null) playerToUpdate.setName(playerDTO.getName());
                     if (playerDTO.getEmail() != null) playerToUpdate.setEmail(playerDTO.getEmail());
-                    if (playerDTO.getUserName() != null) playerToUpdate.setUserName(playerDTO.getUserName());
+                    if (playerDTO.getUsername() != null) playerToUpdate.setUsername(playerDTO.getUsername());
                     return save(playerToUpdate);
             }
         return null;
     }
 
-    Optional<Player> findByUserName(String userName);
+    Optional<Player> findByUsername(String username);
 
 }

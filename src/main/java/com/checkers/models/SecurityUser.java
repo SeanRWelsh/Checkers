@@ -16,7 +16,7 @@ public class SecurityUser implements UserDetails {
     }
     @Override
     public String getUsername() {
-        return player.getUserName();
+        return player.getUsername();
     }
 
     @Override
