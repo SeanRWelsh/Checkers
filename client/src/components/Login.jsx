@@ -1,60 +1,37 @@
 import React, { useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-
-
-function Login() {
-const [formData, setFormData] = useState({username:"", password:"", _csrf:""})
-const [csrfToken, setCsrfToken] = useState('')
-
-useEffect(()=>{
-  fetch('/api/csrf')
-  .then(r => r.json())
-  .then( r => {
-  console.log(r)
-    setCsrfToken(r.token)
-//        setFormData({_csrf:r.token})
-
-  })
-  .catch((error) => {
-//   console.error("Error fetching data:", error);
+function Login({ csrfToken }) {
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
   });
-  },[]);
-  console.log(csrfToken)
-
-
-
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     fetch(`/api/login`, {
       method: "POST",
       headers: {
-      "Content-Type": "application/json",
-      "X-XSRF-TOKEN": csrfToken
+        "Content-Type": "application/json",
+        "X-XSRF-TOKEN": csrfToken,
       },
       body: JSON.stringify(formData),
     }).then((res) => {
       if (res.ok) {
-    console.log(res)
-//         res.json().then((user) => setUser(user));
-//         setErrors([]);
-//         handleClose();
+        console.log(res);
+        navigate("/");
       } else {
-      console.log("WHAT THE FUCK")
-//         res.json().then((err) => setErrors(err.errors));
+        res.json().then((err) => setErrors(err.errors));
       }
     });
-
-    // Here you can perform any action you want with the username and password, such as sending them to a server for authentication
-
-
   };
-    const handleChange = (e) => {
-    console.log(e.target.name)
-      let key = e.target.name;
-      let value = e.target.value;
-      setFormData({ ...formData, [key]: value });
-    };
+  const handleChange = (e) => {
+    console.log(e.target.name);
+    let key = e.target.name;
+    let value = e.target.value;
+    setFormData({ ...formData, [key]: value });
+  };
 
   return (
     <div>

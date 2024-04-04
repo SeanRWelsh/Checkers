@@ -11,9 +11,10 @@ public class SecurityUser implements UserDetails {
 
     private Player player;
 
-    public SecurityUser(Player player){
+    public SecurityUser(Player player) {
         this.player = player;
     }
+
     @Override
     public String getUsername() {
         return player.getUsername();

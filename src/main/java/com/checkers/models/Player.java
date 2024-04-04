@@ -3,6 +3,7 @@ package com.checkers.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.hibernate.annotations.ColumnDefault;
+import java.util.List;
 
 @Entity
 @Table(name = "players")
@@ -40,29 +41,66 @@ public class Player {
     @ColumnDefault("0")
     private int moves;
 
-    public Player(){}
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "game_players",
+    joinColumns = @JoinColumn(name = "player_id"),
+    inverseJoinColumns = @JoinColumn(name= "game_id"))
+    private List<Game> gamesPlayed;
+
+    public Player() {
+    }
 
     public Long getId() {
         return id;
     }
 
-    public String getName(){return this.name;}
-    public void setName(String name){this.name = name;}
+    public String getName() {
+        return this.name;
+    }
 
-    public String getUsername(){return this.username;}
-    public void setUsername(String username){this.username = username;}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public String getEmail(){return this.email;}
-    public void setEmail(String email){this.email = email;}
+    public String getUsername() {
+        return this.username;
+    }
 
-    public int getWins(){return this.wins;}
-    public void setWins(int wins){this.wins = wins;}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
-    public int getLosses(){return this.losses;}
-    public void setLosses(int losses){this.losses = losses;}
+    public String getEmail() {
+        return this.email;
+    }
 
-    public int getMoves(){return this.moves;}
-    public void setMoves(int moves){this.moves = moves;}
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public int getWins() {
+        return this.wins;
+    }
+
+    public void setWins(int wins) {
+        this.wins = wins;
+    }
+
+    public int getLosses() {
+        return this.losses;
+    }
+
+    public void setLosses(int losses) {
+        this.losses = losses;
+    }
+
+    public int getMoves() {
+        return this.moves;
+    }
+
+    public void setMoves(int moves) {
+        this.moves = moves;
+    }
 
     public String getRoles() {
         return roles;
@@ -79,4 +117,25 @@ public class Player {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public List<Game> getGamesPlayed() {
+        return this.gamesPlayed;
+    }
+
+    public void addGame(Game game) {
+        this.gamesPlayed.add(game);
+        game.getGamePlayers().add(this);
+    }
+
+    public void removeGame(Game game) {
+        this.gamesPlayed.remove(game);
+        game.getGamePlayers().remove(this);
+    }
+
+    @Override
+    public String toString() {
+        return "player username is " + this.username + " player has " + this.wins + " wins" +
+                " and has played in " + this.gamesPlayed.size();
+    }
+
 }
