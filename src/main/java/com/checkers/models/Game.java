@@ -31,10 +31,20 @@ public class Game {
     @ManyToMany(mappedBy = "gamesPlayed", fetch = FetchType.EAGER)//, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Player> gamePlayers;
 
+    @ManyToOne
+    @JoinColumn(name = "winner_id")
+    private Player winner;
+
+    @OneToMany(mappedBy="game")
+    private Set<Piece> pieces;
+
+
+
     public Game() {
         this.startTime = LocalDateTime.now();
         this.status = Status.IN_PROGRESS;
         this.gamePlayers = new HashSet<>();
+        this.pieces = new HashSet<>();
     }
 
     public long getId() {
@@ -66,13 +76,15 @@ public class Game {
     }
 
     public Set<Player> getGamePlayers() {
-        System.out.println("in getGame Players ");
         return this.gamePlayers;
     }
 
     public void addPlayer(Player player) {
         this.gamePlayers.add(player);
         player.getGamesPlayed().add(this);
+    }
+    public void addPiece(Piece piece) {
+        this.pieces.add(piece);
     }
 
     public void removePlayer(Player player) {
@@ -89,5 +101,21 @@ public class Game {
             stringBuilder.append(gamePlayer.getUsername()).append(", ");
         }
         return stringBuilder.toString();
+    }
+
+    public Player getWinner() {
+        return winner;
+    }
+
+    public void setWinner(Player winner) {
+        this.winner = winner;
+    }
+
+    public Set<Piece> getPieces() {
+        return pieces;
+    }
+
+    public void setPieces(Set<Piece> pieces) {
+        this.pieces = pieces;
     }
 }

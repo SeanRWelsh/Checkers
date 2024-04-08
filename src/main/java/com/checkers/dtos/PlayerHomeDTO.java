@@ -2,7 +2,7 @@ package com.checkers.dtos;
 
 import com.checkers.models.Player;
 
-public class PlayerDTO {
+public class PlayerHomeDTO {
     private Long id;
     private String name;
     private String username;
@@ -11,10 +11,10 @@ public class PlayerDTO {
     private int moves;
     private String email;
 
-    public PlayerDTO() {
+    public PlayerHomeDTO() {
     }
 
-    public PlayerDTO(Player player) {
+    public PlayerHomeDTO(Player player) {
         this.id = player.getId();
         this.name = player.getName();
         this.wins = player.getWins();

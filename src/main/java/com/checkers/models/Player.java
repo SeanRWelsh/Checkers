@@ -47,6 +47,7 @@ public class Player {
     inverseJoinColumns = @JoinColumn(name= "game_id"))
     private List<Game> gamesPlayed;
 
+
     public Player() {
     }
 

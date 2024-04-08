@@ -1,6 +1,5 @@
 package com.checkers.repositories;
 
-import com.checkers.dtos.PlayerDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.checkers.models.Player;
 import org.springframework.transaction.annotation.Transactional;
@@ -9,7 +8,7 @@ import java.util.Optional;
 
 public interface PlayerRepository extends JpaRepository<Player, Long> {
     @Transactional
-    default Player patchPlayer(Long id, PlayerDTO playerDTO) {
+    default Player patchPlayer(Long id, Player playerDTO) {
         Optional<Player> optionalPlayer = findById(id);
         if (optionalPlayer.isPresent()) {
             Player playerToUpdate = optionalPlayer.get();

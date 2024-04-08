@@ -1,71 +1,64 @@
 package com.checkers.dtos;
 
 import com.checkers.models.Game;
+import com.checkers.models.Piece;
 import com.checkers.models.Player;
 import com.checkers.models.enums.Status;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class GameDTO {
-    private long id;
+    private final long id;
     private Status status;
+    private PlayerGameDTO winner;
     private LocalDateTime startTime;
     private LocalDateTime updatedAt;
-    private Set<PlayerDTO> players;
+    private  Set<PlayerGameDTO> players;
+    private Set<PieceDTO> pieces;
 
     public GameDTO(Game game) {
         this.id = game.getId();
         this.status = game.getStatus();
+        if (game.getWinner() != null) this.winner = new PlayerGameDTO(game.getWinner());
         this.startTime = game.getStartTime();
         this.updatedAt = game.getUpdatedAt();
         this.players = new HashSet<>();
         for(Player player: game.getGamePlayers()){
-            this.players.add(new PlayerDTO(player));
+            this.players.add(new PlayerGameDTO(player));
         }
-
+        this.pieces = new HashSet<>();
+        for(Piece piece: game.getPieces()){
+            this.pieces.add(new PieceDTO(piece));
+        }
     }
 
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public Status getStatus() {
         return this.status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
     }
 
     public LocalDateTime getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
-    }
-
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    public Set<PlayerDTO> getPlayers() {
+    public Set<PlayerGameDTO> getPlayers() {
         return players;
     }
 
-    public void setPlayers(Set<PlayerDTO> players) {
-        this.players = players;
+    public PlayerGameDTO getWinner() {
+        return winner;
+    }
+    public Set<PieceDTO> getPieces(){
+        return pieces;
     }
 
     @Override
@@ -78,4 +71,6 @@ public class GameDTO {
                 ", players=" + players +
                 '}';
     }
+
+
 }
