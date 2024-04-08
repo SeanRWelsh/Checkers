@@ -5,6 +5,7 @@ import com.checkers.models.Game;
 import com.checkers.models.Player;
 import com.checkers.repositories.GameRepository;
 import com.checkers.repositories.PlayerRepository;
+import com.checkers.service.GameCreationService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,10 +20,13 @@ public class GameController {
 
     private final PlayerRepository playerRepository;
     private final GameRepository gameRepository;
+    private final GameCreationService gameCreationService;
 
-    public GameController(PlayerRepository playerRepository, GameRepository gameRepository) {
+    public GameController(PlayerRepository playerRepository, GameRepository gameRepository,
+                          GameCreationService gameCreationService) {
         this.playerRepository = playerRepository;
         this.gameRepository = gameRepository;
+        this.gameCreationService = gameCreationService;
     }
 
     @GetMapping("/{gameId}")
@@ -36,17 +40,7 @@ public class GameController {
     @Transactional
     public ResponseEntity<GameDTO> createGame(@RequestBody CreateGameRequest createGameRequest,
             HttpServletRequest request) {
-        Player player1 = playerRepository.findById(createGameRequest.player1_id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Player with id " + createGameRequest.player1_id + " not found."));
-        Player player2 = playerRepository.findById(createGameRequest.player2_id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Player with id " + createGameRequest.player2_id + " not found."));
-        Game newGame = new Game();
-        newGame.addPlayer(player1);
-        newGame.addPlayer(player2);
-        Game savedGame = gameRepository.save(newGame);
-
+        Game newGame = gameCreationService.createGame(createGameRequest.player1_id, createGameRequest.player2_id);
         return ResponseEntity.status(HttpStatus.CREATED).body(new GameDTO(newGame));
     }
 

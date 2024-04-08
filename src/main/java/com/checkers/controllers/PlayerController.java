@@ -1,6 +1,7 @@
 package com.checkers.controllers;
 
-import com.checkers.dtos.PlayerDTO;
+
+import com.checkers.dtos.PlayerHomeDTO;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,26 +24,25 @@ public class PlayerController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PlayerDTO> getPlayer(@PathVariable Long id) {
+    public ResponseEntity<PlayerHomeDTO> getPlayer(@PathVariable Long id) {
         Player player = playerRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Player with id " + id + " not found."));
-        return ResponseEntity.ok(new PlayerDTO(player));
+        return ResponseEntity.ok(new PlayerHomeDTO(player));
     }
 
     @PostMapping
-    public ResponseEntity<PlayerDTO> signUp(@Valid @RequestBody Player player) {
+    public ResponseEntity<PlayerHomeDTO> signUp(@Valid @RequestBody Player player) {
         PasswordEncoder encoder = new BCryptPasswordEncoder();
         player.setPassword(encoder.encode(player.getPassword()));
         Player savedPlayer = playerRepository.save(player);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new PlayerDTO(savedPlayer));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new PlayerHomeDTO(savedPlayer));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<PlayerDTO> updatePlayer(@PathVariable Long id, @RequestBody PlayerDTO player) {
+    public ResponseEntity<PlayerHomeDTO> updatePlayer(@PathVariable Long id, @RequestBody Player player) {
         Player updatedPlayer = playerRepository.patchPlayer(id, player);
-        return ResponseEntity.ok(new PlayerDTO(updatedPlayer));
-
+        return ResponseEntity.ok(new PlayerHomeDTO(updatedPlayer));
     }
 
     @DeleteMapping("/{id}")
