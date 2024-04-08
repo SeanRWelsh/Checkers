@@ -17,14 +17,10 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 @RequestMapping("/game")
 public class GameController {
-
-    private final PlayerRepository playerRepository;
     private final GameRepository gameRepository;
     private final GameCreationService gameCreationService;
 
-    public GameController(PlayerRepository playerRepository, GameRepository gameRepository,
-                          GameCreationService gameCreationService) {
-        this.playerRepository = playerRepository;
+    public GameController(GameRepository gameRepository, GameCreationService gameCreationService) {
         this.gameRepository = gameRepository;
         this.gameCreationService = gameCreationService;
     }
