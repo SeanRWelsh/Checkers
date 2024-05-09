@@ -16,9 +16,7 @@ function Game() {
             //subscribes and listens for responses to /topic/${gameId} if a response comes through
             //then anything inside the
             client.subscribe(`/topic/${gameId}`, (greeting) => {
-                console.log(`in topic/gameId ${greeting.body}`)
                 const parsedData = (JSON.parse(greeting.body).name)
-                console.log(parsedData)
                 showGreeting(JSON.parse(greeting.body).name);
             });
         };
@@ -57,7 +55,6 @@ function Game() {
 
     function sendName() {
         if (stompClient) {
-            console.log("in Name ");
             stompClient.publish({
                 destination: `/app/game/${gameId}`,
                 body: JSON.stringify({'name': document.getElementById("name").value})
