@@ -35,8 +35,9 @@ function Login({ csrfToken }) {
 
   return (
     <div>
-      <h2>Login Form</h2>
-      <form onSubmit={handleSubmit}>
+      <h1 className="center">WelcomeBack!</h1>
+      <h3 className="center">Login Form</h3>
+      <form className="center" onSubmit={handleSubmit}>
         <div>
           <label htmlFor="username">Username:</label>
           <input

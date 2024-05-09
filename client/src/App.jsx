@@ -4,6 +4,7 @@ import "./App.css";
 import Game from "./components/Game";
 import Home from "./components/Home";
 import Login from "./components/Login";
+import NavBar from "./components/NavBar";
 
 function App() {
   const [csrfToken, setCsrfToken] = useState("");
@@ -11,7 +12,6 @@ function App() {
     fetch("/api/csrf")
       .then((r) => r.json())
       .then((r) => {
-        console.log(r);
         setCsrfToken(r.token);
       })
       .catch((error) => {
@@ -21,6 +21,7 @@ function App() {
 
   return (
     <div className="App">
+      <NavBar/>
       <Routes>
         <Route path="/game" element={<Game />} />
         <Route path="/login" element={<Login csrfToken={csrfToken} />} />
