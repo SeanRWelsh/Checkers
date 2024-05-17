@@ -3,6 +3,9 @@ package com.checkers.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.hibernate.annotations.ColumnDefault;
+import java.util.Set;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 @Entity
@@ -45,7 +48,7 @@ public class Player {
     @JoinTable(name = "game_players",
     joinColumns = @JoinColumn(name = "player_id"),
     inverseJoinColumns = @JoinColumn(name= "game_id"))
-    private List<Game> gamesPlayed;
+    private Set<Game> gamesPlayed = new HashSet<>();
 
 
     public Player() {
@@ -119,17 +122,21 @@ public class Player {
         this.password = password;
     }
 
-    public List<Game> getGamesPlayed() {
+    public Set<Game> getGamesPlayed() {
         return this.gamesPlayed;
     }
 
+    public void setGamesPlayed(Set<Game> gamesPlayed) {
+        this.gamesPlayed = gamesPlayed;
+    }
+
     public void addGame(Game game) {
-        this.gamesPlayed.add(game);
-        game.getGamePlayers().add(this);
+            gamesPlayed.add(game);
+            game.getGamePlayers().add(this);
     }
 
     public void removeGame(Game game) {
-        this.gamesPlayed.remove(game);
+        gamesPlayed.remove(game);
         game.getGamePlayers().remove(this);
     }
 

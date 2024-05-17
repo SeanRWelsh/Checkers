@@ -3,26 +3,32 @@ import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/User";
 
+
+
 function Home({ csrfToken }) {
   const [buttonPressed, setButtonPressed] = useState(true);
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
 
-  useEffect(() => {
-    fetch(`/api/player/32`)
-      .then((r) => {
-      if (r.ok){
-        r.json()
-      .then((r) => {
-        console.log(`in Home printing player ${r}`);
-      })
 
-      }else{
-        console.error("Error fetching data:", r);
-      }
-      })
-
-  }, []);
+  const startNewGame = () =>{
+      fetch(`/api/game`,{
+          method: "post",
+          headers: {
+              "Content-Type": "application/json",
+              "X-XSRF-TOKEN": csrfToken,
+          },
+          body: JSON.stringify({player1_id: 32, player2_id: 33})
+      }).then(r =>{
+          if(r.ok){
+              r.json()
+              .then( r =>{
+                  console.log(r);
+                  navigate('/game', { state: {game: r}})
+              })
+          }
+         })
+  }
 
   const handleClick = () => {
     fetch(`/api/logout`, {
@@ -43,7 +49,7 @@ function Home({ csrfToken }) {
   return (
     <div>
       <button onClick={() => handleClick()}>Logout</button>
-{/*       <button onClick={() => startNewGame()}> start game </button> */}
+      <button onClick={() => startNewGame()}> start game </button>
     </div>
   );
 }

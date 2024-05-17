@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Client } from '@stomp/stompjs';
+import GameGrid from './GameGrid';
+import {useLocation} from "react-router-dom";
 function Game() {
     const [connected, setConnected] = useState(false);
     const [stompClient, setStompClient] = useState(null);
     const [gameId, setGameId] = useState(81);
+    const location = useLocation();
+    const { game } = location.state;
 
     useEffect(() => {
         const client = new Client({
@@ -74,39 +78,41 @@ function Game() {
 
     return (
         <div id="main-content" className="container">
-            <div className="row">
-                <div className="col-md-6">
-                    <form className="form-inline" onSubmit={(e) => {e.preventDefault(); connect();}}>
-                        <div className="form-group">
-                            <label htmlFor="connect">WebSocket connection:</label>
-                            <button id="connect" className="btn btn-default" type="submit" disabled={connected}>Connect</button>
-                            <button id="disconnect" className="btn btn-default" type="button" disabled={!connected} onClick={disconnect}>Disconnect</button>
-                        </div>
-                    </form>
-                </div>
-                <div className="col-md-6">
-                    <form className="form-inline" onSubmit={(e) => {e.preventDefault(); sendName();}}>
-                        <div className="form-group">
-                            <label htmlFor="name">What is your name?</label>
-                            <input type="text" id="name" className="form-control" placeholder="Your name here..."/>
-                        </div>
-                        <button id="send" className="btn btn-default" type="submit">Send</button>
-                    </form>
-                </div>
-            </div>
-            <div className="row">
-                <div className="col-md-12">
-                    <table id="conversation" className="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Greetings</th>
-                            </tr>
-                        </thead>
-                        <tbody id="greetings">
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+            <GameGrid game={game}/>
+{/*             <div className="row"> */}
+{/*                 <div className="col-md-6"> */}
+{/*                     <form className="form-inline" onSubmit={(e) => {e.preventDefault(); connect();}}> */}
+{/*                         <div className="form-group"> */}
+{/*                             <label htmlFor="connect">WebSocket connection:</label> */}
+{/*                             <button id="connect" className="btn btn-default" type="submit" disabled={connected}>Connect</button> */}
+{/*                             <button id="disconnect" className="btn btn-default" type="button" disabled={!connected} onClick={disconnect}>Disconnect</button> */}
+{/*                         </div> */}
+{/*                     </form> */}
+{/*                 </div> */}
+{/*                 <div className="col-md-6"> */}
+{/*                     <form className="form-inline" onSubmit={(e) => {e.preventDefault(); sendName();}}> */}
+{/*                         <div className="form-group"> */}
+{/*                             <label htmlFor="name">What is your name?</label> */}
+{/*                             <input type="text" id="name" className="form-control" placeholder="Your name here..."/> */}
+{/*                         </div> */}
+{/*                         <button id="send" className="btn btn-default" type="submit">Send</button> */}
+{/*                     </form> */}
+{/*                 </div> */}
+{/*             </div> */}
+{/*             <div className="row"> */}
+{/*                 <div className="col-md-12"> */}
+{/*                     <table id="conversation" className="table table-striped"> */}
+{/*                         <thead> */}
+{/*                             <tr> */}
+{/*                                 <th>Greetings</th> */}
+{/*                             </tr> */}
+{/*                         </thead> */}
+{/*                         <tbody id="greetings"> */}
+{/*                         </tbody> */}
+{/*                     </table> */}
+{/*                 </div> */}
+{/*             </div> */}
+
         </div>
     );
 }
