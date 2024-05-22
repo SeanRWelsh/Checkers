@@ -30,6 +30,26 @@ function Home({ csrfToken }) {
          })
   }
 
+  const resumeGame = () =>{
+      fetch(`/api/game/109`,{
+          method: "get",
+          headers: {
+              "Content-Type": "application/json",
+              "X-XSRF-TOKEN": csrfToken,
+          },
+      }).then(r =>{
+          if(r.ok){
+              r.json()
+              .then( r =>{
+                  console.log(r);
+                  navigate(`/game`, {state: {game: r}})
+              })
+
+          }
+      })
+
+      }
+
   const handleClick = () => {
     fetch(`/api/logout`, {
       method: "POST",
@@ -50,6 +70,7 @@ function Home({ csrfToken }) {
     <div>
       <button onClick={() => handleClick()}>Logout</button>
       <button onClick={() => startNewGame()}> start game </button>
+      <button onClick={() => resumeGame()}> resume game </button>
     </div>
   );
 }

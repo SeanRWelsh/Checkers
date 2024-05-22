@@ -1,28 +1,69 @@
-.wrapper{
-  display: grid;
-  grid-template-columns: repeat(8, 60px);
-  grid-auto-rows: 60px;
-
-  justify-content: center;
+:root {
+  --primary-color: #333;
+  --secondary-color: #007bff;
+  --background-color: #f0f0f0;
+  --white: #fff;
+  --black: #000;
+  --red: #CC0000;
+  --tan: #d2b48c;
+  --brown: #8b4513;
+  --gold: gold;
+  --shadow-color: rgba(0, 0, 0, 0.1);
 }
-.grid-box{
-  border-left:solid;
-  border-top:solid;
+
+#main-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: var(--background-color);
+  padding: 20px;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90vw;
+  max-width: 800px;
+  height: 90vw;
+  max-height: 800px;
+  background-color: var(--white);
+  border: 2px solid var(--primary-color);
+  box-shadow: 0 4px 8px var(--shadow-color);
+  position: relative;
+}
+
+.wrapper {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(8, 1fr);
+  width: 100%;
+  height: 100%;
+}
+
+.grid-box {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
 
 .tan {
-    background-color: tan;
+  background-color: var(--tan);
 }
 
 .brown {
-    background-color: brown;
+  background-color: var(--brown);
 }
 
-.grid-right{
-  border-right:solid;
+.grid-right {
+  border-right: 1px solid var(--black);
 }
 
-.grid-bottom{
-  border-bottom:solid;
+.grid-bottom {
+  border-bottom: 1px solid var(--black);
 }
-

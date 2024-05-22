@@ -16,11 +16,16 @@ public class PieceDTO {
     private PlayerGameDTO player;
 
     public PieceDTO(Piece piece){
+        this.id = piece.getId();
         this.color = piece.getColor();
         this.king = piece.getKing();
         this.row = piece.getRow();
         this.column = piece.getColumn();
         this.player = new PlayerGameDTO(piece.getPlayer());
+    }
+
+    public long getId() {
+        return id;
     }
 
     public PlayerGameDTO getPlayer() {

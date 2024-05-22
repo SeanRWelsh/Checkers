@@ -1,0 +1,52 @@
+/* Base styles for all checkers pieces */
+.checker-piece {
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s;
+}
+
+.checker-piece:hover {
+  transform: scale(1.1);
+}
+
+.checker-piece.black {
+  background-color: var(--black);
+}
+
+.checker-piece.red {
+  background-color: var(--red);
+}
+
+.inner-circle {
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  position: absolute;
+}
+
+.small-circle {
+  width: 70%;
+  height: 70%;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  position: absolute;
+}
+
+.king-indicator {
+  font-size: 1.5em;
+  color: var(--gold);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.selected{
+transform: scale(1.3);
+}

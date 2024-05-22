@@ -1,5 +1,6 @@
 package com.checkers.service;
 
+import com.checkers.dtos.MoveDTO;
 import com.checkers.models.Game;
 import com.checkers.models.Piece;
 import com.checkers.models.Player;
@@ -12,7 +13,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Stream;
 
 @Service
 public class GameService {
@@ -76,6 +81,14 @@ public class GameService {
                 player = player2;
             }
         }
+    }
+
+    public Boolean validateMove(Game game, MoveDTO move){
+        Optional<Piece> rowAndColumnCheck = game.getPieces().stream()
+                .filter(piece -> piece.getColumn() == move.getDestinationColumn() && piece.getRow() == move.getDestinationRow())
+                .findAny();
+
+        return rowAndColumnCheck.isEmpty();
     }
 
 }

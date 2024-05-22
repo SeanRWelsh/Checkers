@@ -11,21 +11,21 @@ public class MoveDTO {
     int sourceColumn;
     int destinationRow;
     int destinationColumn;
-    private Game game;
-    private Player player;
-    private Piece piece;
+    private Long gameId;
+    private Long playerId;
+    private Long pieceId;
 
     public MoveDTO(){}
-    public MoveDTO(long id, int sourceRow, int sourceColumn, int destinationRow, int destinationColumn, Game game,
-                   Player player, Piece piece){
+    public MoveDTO(long id, int sourceRow, int sourceColumn, int destinationRow, int destinationColumn, Long gameId,
+                   Long playerId, Long pieceId){
         this.id = id;
         this.sourceRow = sourceRow;
         this.sourceColumn = sourceColumn;
         this.destinationRow = destinationRow;
         this.destinationColumn = destinationColumn;
-        this.game = game;
-        this.player = player;
-        this.piece = piece;
+        this.gameId = gameId;
+        this.playerId = playerId;
+        this.pieceId = pieceId;
     }
 
     public long getId() {
@@ -49,15 +49,15 @@ public class MoveDTO {
         return this.destinationColumn;
     }
 
-    public Game getGame() {
-        return game;
+    public Long getGameId() {
+        return gameId;
     }
 
-    public Player getPlayer() {
-        return player;
+    public Long getPlayerId() {
+        return playerId;
     }
 
-    public Piece getPiece() {
-        return piece;
+    public Long getPieceId() {
+        return pieceId;
     }
 }
