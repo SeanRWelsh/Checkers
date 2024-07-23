@@ -12,7 +12,7 @@ function Game() {
 
         useEffect(() => {
             const client = new Client({
-                brokerURL: 'ws://localhost:8080/ws',
+                brokerURL: 'ws://192.168.0.107:8080/ws',
                 onConnect: (frame) => {
                     setConnected(true);
                     console.log('Connected: ' + frame);

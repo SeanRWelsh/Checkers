@@ -35,18 +35,18 @@ public class GameController {
         return ResponseEntity.status(HttpStatus.OK).body(new GameDTO(game));
     }
 
-    @PostMapping("move")
-    @Transactional
-    public ResponseEntity<GameDTO> attemptMove(@RequestBody @NotNull MoveDTO move){
-        Game game = gameRepository.findById(move.getGameId()).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game with id " + move.getGameId() + " not found."));
-        if(gameService.validateMove(game, move)){
-            pieceRepository.movePiece(move.getPieceId(), move.getDestinationRow(), move.getDestinationColumn());
-        }
-
-        return ResponseEntity.status(HttpStatus.OK).body(new GameDTO(game));
-
-    }
+//    @PostMapping("move")
+//    @Transactional
+//    public ResponseEntity<GameDTO> attemptMove(@RequestBody @NotNull MoveDTO move){
+//        Game game = gameRepository.findById(move.getGameId()).orElseThrow(
+//                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game with id " + move.getGameId() + " not found."));
+//        if(gameService.validateMove(game, move)){
+//            pieceRepository.movePiece(move.getPieceId(), move.getDestinationRow(), move.getDestinationColumn());
+//        }
+//
+//        return ResponseEntity.status(HttpStatus.OK).body(new GameDTO(game));
+//
+//    }
 
     @PostMapping
     @Transactional

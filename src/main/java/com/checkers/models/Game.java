@@ -35,7 +35,7 @@ public class Game {
     @JoinColumn(name = "winner_id")
     private Player winner;
 
-    @OneToMany(mappedBy="game", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy="game", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Piece> pieces;
 
 
@@ -86,6 +86,10 @@ public class Game {
     }
     public void addPiece(Piece piece) {
         this.pieces.add(piece);
+    }
+
+    public void removePiece(Piece piece){
+        this.pieces.remove(piece);
     }
 
     public void removePlayer(Player player) {

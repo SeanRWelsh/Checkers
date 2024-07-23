@@ -61,7 +61,7 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests(auth -> auth
                         //.requestMatchers(HttpMethod.POST, "/game").permitAll()
-                        .requestMatchers("/login", "/csrf", "/logout", "/auth").permitAll() // mvcMatchers
+                        .requestMatchers("/login", "/csrf", "/logout", "/auth", "/player", "/ws").permitAll() // mvcMatchers
                         .requestMatchers( "/game").hasRole("ADMIN")
                        .anyRequest().authenticated())
                 .userDetailsService(jpaUserDetailsService)

@@ -25,7 +25,7 @@ public class Piece {
     private int column;
 
     @ManyToOne
-    @JoinColumn(name = "game_id")
+    @JoinColumn(name = "game_id", nullable = false)
     private Game game;
 
     @ManyToOne
@@ -53,6 +53,10 @@ public class Piece {
     public Game getGame() {
         return game;
     }
+    public void setGame(Game game) {
+        System.out.println(game);
+        this.game =  game;
+    }
 
     public int getColumn() {
         return column;
@@ -70,7 +74,7 @@ public class Piece {
         this.row = row;
     }
 
-    public Boolean getKing() {
+    public Boolean isKing() {
         return king;
     }
 

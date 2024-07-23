@@ -29,8 +29,9 @@ function GameGrid({game, stompClient}){
                 'pieceId': selectedPiece.id, 'playerId': selectedPiece.player.id})
             });
         }else {
-            console.error('STOMP client is not connected.')
+            console.error('STOMP client is not connected. kljhgoujhgfhjk')
         }
+    setSelectedPiece(null);
     }
 
 
