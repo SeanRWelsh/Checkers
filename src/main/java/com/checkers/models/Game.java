@@ -29,13 +29,13 @@ public class Game {
     private LocalDateTime updatedAt;
 
     @ManyToMany(mappedBy = "gamesPlayed", fetch = FetchType.EAGER)//, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<Player> gamePlayers;
+    private Set<Player> gamePlayers = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "winner_id")
     private Player winner;
 
-    @OneToMany(mappedBy="game")
+    @OneToMany(mappedBy="game", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Piece> pieces;
 
 
@@ -80,16 +80,25 @@ public class Game {
     }
 
     public void addPlayer(Player player) {
-        this.gamePlayers.add(player);
-        player.getGamesPlayed().add(this);
+            gamePlayers.add(player);
+            player.addGame(this);
+    //        player.getGamesPlayed().add(this);
     }
     public void addPiece(Piece piece) {
         this.pieces.add(piece);
     }
 
+    public void removePiece(Piece piece){
+        this.pieces.remove(piece);
+    }
+
     public void removePlayer(Player player) {
         this.gamePlayers.remove(player);
         player.getGamesPlayed().remove(this);
+    }
+
+    public void setGamePlayers(Set<Player> gamePlayers) {
+        this.gamePlayers = gamePlayers;
     }
 
 

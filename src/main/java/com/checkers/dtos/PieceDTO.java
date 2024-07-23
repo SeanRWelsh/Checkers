@@ -16,11 +16,16 @@ public class PieceDTO {
     private PlayerGameDTO player;
 
     public PieceDTO(Piece piece){
+        this.id = piece.getId();
         this.color = piece.getColor();
-        this.king = piece.getKing();
+        this.king = piece.isKing();
         this.row = piece.getRow();
         this.column = piece.getColumn();
         this.player = new PlayerGameDTO(piece.getPlayer());
+    }
+
+    public long getId() {
+        return id;
     }
 
     public PlayerGameDTO getPlayer() {
@@ -35,7 +40,7 @@ public class PieceDTO {
         return row;
     }
 
-    public Boolean getKing() {
+    public Boolean isKing() {
         return king;
     }
 
