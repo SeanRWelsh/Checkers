@@ -5,7 +5,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.ColumnDefault;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -29,11 +31,15 @@ public class Game {
     private LocalDateTime updatedAt;
 
     @ManyToMany(mappedBy = "gamesPlayed", fetch = FetchType.EAGER)//, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set<Player> gamePlayers = new HashSet<>();
+    private List<Player> gamePlayers = new ArrayList<Player>();
 
     @ManyToOne
     @JoinColumn(name = "winner_id")
     private Player winner;
+
+    @ManyToOne
+    @JoinColumn(name = "player_turn")
+    private Player playerTurn;
 
     @OneToMany(mappedBy="game", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Piece> pieces;
@@ -43,7 +49,7 @@ public class Game {
     public Game() {
         this.startTime = LocalDateTime.now();
         this.status = Status.IN_PROGRESS;
-        this.gamePlayers = new HashSet<>();
+        this.gamePlayers = new ArrayList<>();
         this.pieces = new HashSet<>();
     }
 
@@ -75,7 +81,7 @@ public class Game {
         this.updatedAt = updatedAt;
     }
 
-    public Set<Player> getGamePlayers() {
+    public List<Player> getGamePlayers() {
         return this.gamePlayers;
     }
 
@@ -97,7 +103,15 @@ public class Game {
         player.getGamesPlayed().remove(this);
     }
 
-    public void setGamePlayers(Set<Player> gamePlayers) {
+    public Player getPlayerTurn(){
+        return playerTurn;
+    }
+
+    public void setPlayerTurn(Player player){
+        this.playerTurn = player;
+    }
+
+    public void setGamePlayers(List<Player> gamePlayers) {
         this.gamePlayers = gamePlayers;
     }
 
