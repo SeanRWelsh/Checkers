@@ -10,7 +10,7 @@ import java.util.Collection;
 
 public class SecurityUser implements UserDetails {
 
-    private Player player;
+    private final Player player;
 
     public SecurityUser(Player player) {
         this.player = player;
@@ -24,7 +24,6 @@ public class SecurityUser implements UserDetails {
     @Override
     public String getPassword() {
         return player.getPassword();
-//        return null;
     }
 
     @Override

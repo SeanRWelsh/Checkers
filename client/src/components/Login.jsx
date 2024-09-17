@@ -12,20 +12,24 @@ function Login({ csrfToken }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    fetch(`/api/player/2`, {
-      method: "GET",
-//       headers: {
-//         "Content-Type": "application/json",
-//         "X-XSRF-TOKEN": csrfToken,
-//       },
-//       body: JSON.stringify(formData),
+    fetch(`/api/login`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        //"X-XSRF-TOKEN": csrfToken,
+      },
+      body: JSON.stringify(formData),
     }).then((res) => {
       if (res.ok) {
           console.log(res)
           res.json().then((user) => setUser(user));
         navigate("/");
       } else {
-        res.json().then((err) => setErrors(err.errors));
+          //console.log(err.errors)
+        res.json().then((err) =>
+        console.log(err)
+        //setErrors(err.errors)
+        );
       }
     });
   };
