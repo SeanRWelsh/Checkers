@@ -18,7 +18,7 @@ public class Player {
     @NotBlank(message = "name cannot be blank.")
     @Size(max = 50)
     private String name;
-    @Column(name = "user_name")
+    @Column(name = "username")
     @Size(max = 50)
     private String username;
 

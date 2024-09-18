@@ -1,7 +1,9 @@
 package com.checkers.repositories;
 
+import com.checkers.securityConfiguration.SecurityUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import com.checkers.models.Player;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
@@ -22,7 +24,7 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
         }
         return null;
     }
-
-    Optional<Player> findByUsername(String username);
+    @Query(value = "SELECT id, username, password FROM players WHERE username = ?1", nativeQuery = true)
+    Optional<SecurityUser> findByUsername(String username);
 
 }
