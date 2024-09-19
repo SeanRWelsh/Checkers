@@ -16,7 +16,7 @@ function Login({ csrfToken }) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "X-XSRF-TOKEN": csrfToken,
+        //"X-XSRF-TOKEN": csrfToken,
       },
       body: JSON.stringify(formData),
     }).then((res) => {
@@ -25,7 +25,11 @@ function Login({ csrfToken }) {
           res.json().then((user) => setUser(user));
         navigate("/");
       } else {
-        res.json().then((err) => setErrors(err.errors));
+          //console.log(err.errors)
+        res.json().then((err) =>
+        console.log(err)
+        //setErrors(err.errors)
+        );
       }
     });
   };

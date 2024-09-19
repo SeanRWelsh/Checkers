@@ -1,65 +1,69 @@
 package com.checkers.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.context.SecurityContextHolderStrategy;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.security.web.context.SecurityContextRepository;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class LoginController {
 
     private final AuthenticationManager authenticationManager;
-    private final HttpSessionSecurityContextRepository securityContextRepository;
+    private final SecurityContextRepository securityContextRepository = new HttpSessionSecurityContextRepository();
+    private final SecurityContextHolderStrategy securityContextHolderStrategy = SecurityContextHolder.getContextHolderStrategy();
 
-    public LoginController(AuthenticationManager authenticationManager,
-            HttpSessionSecurityContextRepository securityContextRepository) {
+    public LoginController(AuthenticationManager authenticationManager) {
         this.authenticationManager = authenticationManager;
-        this.securityContextRepository = securityContextRepository;
     }
+
+    /* receives a login request from front end
+    1. create an empty SecurityContext. should create a new SecurityContext instance instead of using
+    SecurityContextHolder.getContext().setAuthentication(authentication) to avoid race conditions across multiple
+    threads.
+	2. create a new Authentication object. Spring Security does not care what type of Authentication implementation is
+	set on the SecurityContext. Here, we use UsernamePasswordAuthenticationToken to represent a username and password
+	authentication token.
+	   .unauthenticated() sets the isAuthenticated flag to false.
+	3. create another authentication object. this time use our custom authenticationManager(defined in security) and
+	pass in the authentication request.
+	4. Finally, set the SecurityContext on the SecurityContextHolder. Spring Security uses this information for
+	authorization.*/
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, Object>> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request) {
-        System.out.println("in LoginController");
-        Authentication authenticationRequest = new UsernamePasswordAuthenticationToken(loginRequest.username(),
-                loginRequest.password());
-        Authentication authenticationResponse = this.authenticationManager.authenticate(authenticationRequest);
+    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request, HttpServletResponse response) {
+        try {
+            UsernamePasswordAuthenticationToken token = UsernamePasswordAuthenticationToken.unauthenticated(
+                    loginRequest.username(), loginRequest.password());
 
-        // Save the authenticated user in the SecurityContextRepository
-        SecurityContextHolder.getContext().setAuthentication(authenticationResponse);
-        this.securityContextRepository.saveContext(SecurityContextHolder.getContext(), request, null);
+            Authentication authentication = this.authenticationManager.authenticate(token);
+            SecurityContext context = this.securityContextHolderStrategy.createEmptyContext();
+            context.setAuthentication(authentication);
+            this.securityContextHolderStrategy.setContext(context);
+            securityContextRepository.saveContext(context, request, response);
 
-        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Map<String, Object> userInfo = new HashMap<>();
-        userInfo.put("userName", userDetails.getUsername());
-        userInfo.put("authorities", userDetails.getAuthorities());
-        return ResponseEntity.status(HttpStatus.OK).body(userInfo);
-    }
-    @GetMapping("/auth")
-    public ResponseEntity<?> auth() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated()) {
-            // Retrieve user details from authentication object if needed
-           UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            Map<String, Object> userInfo = new HashMap<>();
-            userInfo.put("userName", userDetails.getUsername());
-            userInfo.put("authorities", userDetails.getAuthorities());
-            return ResponseEntity.ok(userInfo);
-        } else {
-            return ResponseEntity.status(HttpStatus.SEE_OTHER).build();
+            //Must change this return
+
+            return ResponseEntity.ok("User " + loginRequest.username + " successfully logged in");
+
+        } catch (AuthenticationException e) {
+            String errorMessage = "Login failed for user " + loginRequest.username() + ": " + e.getMessage();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorMessage);
+
         }
-    }
 
+    }
 
     public record LoginRequest(String username, String password) {
     }

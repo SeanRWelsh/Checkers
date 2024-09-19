@@ -94,6 +94,10 @@ public class GameService {
             System.out.println("Illegal move bruh");
         }
 
+        List<Player> players = game.getGamePlayers();
+// switches what players turn it is.  ENDED HERE START BY CHECKING WHAT INFROMATION IS PASSED BACK IN MOVE DTO
+        game.setPlayerTurn(game.getPlayerTurn().equals(players.getFirst()) ? players.getLast() : players.getFirst());
+
         return new GameDTO(game);
 
     }
@@ -119,6 +123,10 @@ public class GameService {
     public List<Piece> validateMove(Game game, MoveDTO move) {
         Piece piece = pieceRepository.findById(move.getPieceId())
                 .orElseThrow(() -> new IllegalArgumentException("piece not found"));
+
+        if(!move.getPlayerId().equals(game.getPlayerTurn().getId())){
+            throw new IllegalArgumentException("Please wait for your turn");
+        }
 
         if (!isDiagonalAndOnBoard(move)) {
             throw new IllegalArgumentException("Move is not diagonal or out of board bounds");
