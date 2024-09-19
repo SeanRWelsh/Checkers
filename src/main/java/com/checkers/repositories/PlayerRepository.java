@@ -25,7 +25,6 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
         return null;
     }
 
-    @Query(value = "SELECT username, password, roles FROM players WHERE username = ?1", nativeQuery = true)
     Optional<SecurityUserDetails> findSecurityUserByUsername(String username);
 
 }
