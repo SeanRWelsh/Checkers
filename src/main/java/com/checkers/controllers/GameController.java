@@ -36,7 +36,6 @@ public class GameController {
     }
 
 //    @PostMapping("move")
-//    @Transactional
 //    public ResponseEntity<GameDTO> attemptMove(@RequestBody @NotNull MoveDTO move){
 //        Game game = gameRepository.findById(move.getGameId()).orElseThrow(
 //                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game with id " + move.getGameId() + " not found."));
@@ -49,9 +48,7 @@ public class GameController {
 //    }
 
     @PostMapping
-    @Transactional
-    public ResponseEntity<GameDTO> createGame(@RequestBody @NotNull CreateGameRequest createGameRequest,
-            HttpServletRequest request) {
+    public ResponseEntity<GameDTO> createGame(@RequestBody @NotNull CreateGameRequest createGameRequest) {
         Game newGame = gameService.createGame(createGameRequest.player1_id, createGameRequest.player2_id);
         return ResponseEntity.status(HttpStatus.CREATED).body(new GameDTO(newGame));
     }

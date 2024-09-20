@@ -6,7 +6,9 @@ import com.checkers.models.Player;
 import com.checkers.models.enums.Status;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class GameDTO {
@@ -15,8 +17,9 @@ public class GameDTO {
     private PlayerGameDTO winner;
     private LocalDateTime startTime;
     private LocalDateTime updatedAt;
-    private  Set<PlayerGameDTO> players;
-    private Set<PieceDTO> pieces;
+    private List<PlayerGameDTO> players;
+    private List<PieceDTO> pieces;
+    private PlayerGameDTO player_turn;
 
     public GameDTO(Game game) {
         this.id = game.getId();
@@ -24,14 +27,15 @@ public class GameDTO {
         if (game.getWinner() != null) this.winner = new PlayerGameDTO(game.getWinner());
         this.startTime = game.getStartTime();
         this.updatedAt = game.getUpdatedAt();
-        this.players = new HashSet<>();
+        this.players = new ArrayList<>();
         for(Player player: game.getGamePlayers()){
             this.players.add(new PlayerGameDTO(player));
         }
-        this.pieces = new HashSet<>();
+        this.pieces = new ArrayList<>();
         for(Piece piece: game.getPieces()){
             this.pieces.add(new PieceDTO(piece));
         }
+        this.player_turn = this.getPlayers().getFirst();
     }
 
     public long getId() {
@@ -50,14 +54,17 @@ public class GameDTO {
         return updatedAt;
     }
 
-    public Set<PlayerGameDTO> getPlayers() {
+    public List<PlayerGameDTO> getPlayers() {
         return players;
     }
 
     public PlayerGameDTO getWinner() {
         return winner;
     }
-    public Set<PieceDTO> getPieces(){
+    public PlayerGameDTO getPlayer_turn(){
+        return player_turn;
+    }
+    public List<PieceDTO> getPieces(){
         return pieces;
     }
 

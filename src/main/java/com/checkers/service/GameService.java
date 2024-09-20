@@ -40,26 +40,13 @@ public class GameService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
                         "Player with id " + player2_id + " not found."));
         Game newGame = new Game();
-        Game savedGame = gameRepository.save(newGame);
-        addPlayerToGame(savedGame.getId(), player1_id);
-        addPlayerToGame(savedGame.getId(), player2_id);
-        createPieces(savedGame, player1, player2);
-        return savedGame;
-    }
+        newGame.addPlayer(player1);
+        newGame.addPlayer(player2);
+        newGame.setPlayerTurn(player1);
+        createPieces(newGame, player1, player2);
 
-    public void addPlayerToGame(Long gameId, Long playerId) {
-        Optional<Game> gameOptional = gameRepository.findById(gameId);
-        Optional<Player> playerOptional = playerRepository.findById(playerId);
-        if (gameOptional.isPresent() && playerOptional.isPresent()) {
-            Game game = gameOptional.get();
-            Player player = playerOptional.get();
-            game.addPlayer(player);
-            gameRepository.save(game);
-        } else {
-            throw new EntityNotFoundException("Game or Player not found");
-        }
+        return gameRepository.save(newGame);
     }
-
 
     private void createPieces(Game game, Player player1, Player player2) {
         PieceColor pieceColor = PieceColor.RED;
@@ -70,7 +57,7 @@ public class GameService {
             if (row % 2 != 0) column = 1;
             while (column <= 7) {
                 Piece piece = new Piece(pieceColor, false, row, column, game, player);
-                game.addPiece(pieceRepository.save(piece));
+                game.addPiece(piece);
                 column += 2;
             }
             column = 0;
@@ -81,7 +68,7 @@ public class GameService {
             }
         }
     }
-    @Transactional
+
     public GameDTO makeMove(MoveDTO move){
         Game game = gameRepository.findById(move.getGameId()).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game with id " + move.getGameId() + " not found."));
@@ -101,7 +88,7 @@ public class GameService {
         return new GameDTO(game);
 
     }
-    @Transactional
+
     private Game removePieces(List<Piece> piecesToRemove, Long gameId) {
         Game game = gameRepository.findById(gameId)
                 .orElseThrow(() -> new IllegalArgumentException("Game not found"));

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Client } from '@stomp/stompjs';
 import GameGrid from './GameGrid';
 import {useLocation} from "react-router-dom";
-function Game() {
+function Game({csrfToken}) {
     const [connected, setConnected] = useState(false);
     const [stompClient, setStompClient] = useState(null);
     const location = useLocation();
@@ -13,6 +13,8 @@ function Game() {
         useEffect(() => {
             const client = new Client({
                 brokerURL: 'ws://192.168.0.107:8080/ws',
+//                 connectHeaders:{
+//                     'X-CSRF-TOKEN': csrfToken},
                 onConnect: (frame) => {
                     setConnected(true);
                     console.log('Connected: ' + frame);

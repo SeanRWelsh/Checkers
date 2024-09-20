@@ -16,12 +16,13 @@ function Login({ csrfToken }) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        //"X-XSRF-TOKEN": csrfToken,
+        "X-CSRF-TOKEN": csrfToken,
       },
       body: JSON.stringify(formData),
     }).then((res) => {
       if (res.ok) {
-          console.log(res)
+          const item = res.json()
+          console.log(item)
           res.json().then((user) => setUser(user));
         navigate("/");
       } else {

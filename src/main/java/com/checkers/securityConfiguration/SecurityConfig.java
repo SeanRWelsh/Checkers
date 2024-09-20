@@ -20,12 +20,13 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf((csrf) -> csrf.disable())
+//                .csrf((csrf) -> csrf.disable())
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/login", "/player").permitAll()
+                        .requestMatchers("/login", "/player", "/csrf", "/ws").permitAll()
+                        .requestMatchers("/ws/**").authenticated()
                         .anyRequest().authenticated()
                 )
-                .securityContext((securityContext) -> securityContext.requireExplicitSave(true));
+                .securityContext((securityContext) -> securityContext.requireExplicitSave(false));
 
         return http.build();
     }
