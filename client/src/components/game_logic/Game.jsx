@@ -21,8 +21,11 @@ function Game({csrfToken}) {
                     client.subscribe(`/topic/${gameId}`, (message) => {
                         const parsedData = JSON.parse(message.body);
                         setGame(parsedData)
+                        console.log('parsedData')
                         console.log(parsedData);
-                        // Handle the incoming message
+                    });
+                    client.subscribe('/user/queue/errors', (message) => {
+                        console.log("Error received: " + message.body);
                     });
                 },
                 onWebSocketError: (error) => {

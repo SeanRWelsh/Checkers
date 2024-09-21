@@ -68,7 +68,7 @@ public class GameService {
             }
         }
     }
-
+    @Transactional
     public GameDTO makeMove(MoveDTO move){
         Game game = gameRepository.findById(move.getGameId()).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Game with id " + move.getGameId() + " not found."));
@@ -90,49 +90,55 @@ public class GameService {
     }
 
     private Game removePieces(List<Piece> piecesToRemove, Long gameId) {
-        Game game = gameRepository.findById(gameId)
-                .orElseThrow(() -> new IllegalArgumentException("Game not found"));
+        try {
+            Game game = gameRepository.findById(gameId)
+                    .orElseThrow(() -> new IllegalArgumentException("Game not found"));
 
-        for (Piece pieceToRemove : piecesToRemove) {
-            System.out.println("Jump");
-            if (pieceRepository.existsById(pieceToRemove.getId())) {
-                game.getPieces().remove(pieceToRemove);
-                pieceRepository.delete(pieceToRemove);
-            } else {
-                throw new EntityNotFoundException("Piece with ID " + pieceToRemove.getId() + " not found.");
+            for (Piece pieceToRemove : piecesToRemove) {
+                System.out.println("Jump");
+                if (pieceRepository.existsById(pieceToRemove.getId())) {
+                    game.getPieces().remove(pieceToRemove);
+                    pieceRepository.delete(pieceToRemove);
+                } else {
+                    throw new EntityNotFoundException("Piece with ID " + pieceToRemove.getId() + " not found.");
+                }
             }
-        }
 
-        // Fetch the updated game with pieces as a projection
-        return gameRepository.findById(gameId).orElseThrow(() -> new IllegalArgumentException("Game not found"));
+            // Fetch the updated game with pieces as a projection
+            return gameRepository.findById(gameId).orElseThrow(() -> new IllegalArgumentException("Game not found"));
+        }catch (IllegalArgumentException e){
+            System.out.println("heeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeellllo");
+            return null;
+        }
     }
 
-    public List<Piece> validateMove(Game game, MoveDTO move) {
-        Piece piece = pieceRepository.findById(move.getPieceId())
-                .orElseThrow(() -> new IllegalArgumentException("piece not found"));
+    public List<Piece> validateMove(Game game, MoveDTO move) throws IllegalArgumentException {
+            Piece piece = pieceRepository.findById(move.getPieceId())
+                    .orElseThrow(() -> new IllegalArgumentException("piece not found"));
 
-        if(!move.getPlayerId().equals(game.getPlayerTurn().getId())){
-            throw new IllegalArgumentException("Please wait for your turn");
+            if (!move.getPlayerId().equals(game.getPlayerTurn().getId())) {
+                throw new IllegalArgumentException("Please wait for your turn");
+            }
+
+            if (!isDiagonalAndOnBoard(move)) {
+                throw new IllegalArgumentException("Move is not diagonal or out of board bounds");
+            }
+
+            if (!isCorrectDirection(move, piece)) {
+                throw new IllegalArgumentException("Incorrect movement direction for the piece");
+            }
+
+            if (!isSpaceEmpty(game, move)) {
+                throw new IllegalArgumentException("Destination space is not empty");
+            }
+            boolean isJump = isJump(move);
+
+
+            if (isJump) {
+                return findPiecesJumped(game, move, piece);
+            }else{
+        return Collections.emptyList();
         }
-
-        if (!isDiagonalAndOnBoard(move)) {
-            throw new IllegalArgumentException("Move is not diagonal or out of board bounds");
-        }
-
-        if (!isCorrectDirection(move, piece)) {
-            throw new IllegalArgumentException("Incorrect movement direction for the piece");
-        }
-
-        if (!isSpaceEmpty(game, move)) {
-            throw new IllegalArgumentException("Destination space is not empty");
-        }
-        boolean isJump = isJump(move);
-
-
-        if (isJump) {
-            return findPiecesJumped(game, move, piece);
-        }
-        return Collections.EMPTY_LIST;
     }
     public boolean isCorrectDirection(MoveDTO move, Piece piece){
         return piece.isKing() ||

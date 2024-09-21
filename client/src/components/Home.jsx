@@ -51,35 +51,19 @@ function Home({ csrfToken }) {
       }
 
   const handleClick = () => {
-//     fetch(`/api/logout`, {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "application/json",
-//         "X-CSRF-TOKEN": csrfToken,
-//       },
-//     }).then((r) => {
-//             if (r.ok){
-//               setUser({ username: false, authorities: false })
-//             }else{
-//               console.error("Error fetching data:", r);
-//             }
-//             })
-    fetch(`/api/checkSession`, {
+    fetch(`/api/logout`, {
+      method: "POST",
       headers: {
+        "Content-Type": "application/json",
         "X-CSRF-TOKEN": csrfToken,
       },
-    }).then(response => {
-          if (!response.ok) {
-              throw new Error('Network response was not ok');
-          }
-          return response.text(); // or response.json() if you're returning JSON
-      })
-      .then(data => {
-          console.log(data); // This will log the "Authenticated user: ..." message
-      })
-      .catch(error => {
-          console.error('There was a problem with the fetch operation:', error);
-      });
+    }).then((r) => {
+            if (r.ok){
+              setUser({ username: false, authorities: false })
+            }else{
+              console.error("Error fetching data:", r);
+            }
+            })
   };
 
   return (

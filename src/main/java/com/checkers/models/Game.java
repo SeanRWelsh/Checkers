@@ -127,6 +127,7 @@ public class Game {
             stringBuilder.append(gamePlayer.getId()).append(", ");
             stringBuilder.append(gamePlayer.getUsername()).append(", ");
         }
+        stringBuilder.append((" players turn " + getPlayerTurn()));
         return stringBuilder.toString();
     }
 

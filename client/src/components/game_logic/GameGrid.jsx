@@ -21,7 +21,6 @@ function GameGrid({game, stompClient}){
         }
 
         if(stompClient && stompClient.connected){
-        console.log(moveLocation)
             stompClient.publish({
                 destination: `/app/game/${game.id}`,
                 body: JSON.stringify({'sourceRow': selectedPiece.row, 'sourceColumn': selectedPiece.column ,

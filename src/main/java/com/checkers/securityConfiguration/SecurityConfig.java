@@ -23,7 +23,6 @@ public class SecurityConfig {
 //                .csrf((csrf) -> csrf.disable())
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/login", "/player", "/csrf", "/ws").permitAll()
-                        .requestMatchers("/ws/**").authenticated()
                         .anyRequest().authenticated()
                 )
                 .securityContext((securityContext) -> securityContext.requireExplicitSave(false));
