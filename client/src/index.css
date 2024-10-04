@@ -5,19 +5,22 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   font-family: Arial, sans-serif;
 }
 
 /* App container to manage overall layout */
-#root, .app {
+#root,
+.app {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-header, footer {
+header,
+footer {
   background-color: var(--primary-color);
   color: var(--white);
   text-align: center;
@@ -51,7 +54,8 @@ form {
   gap: 1rem;
 }
 
-input[type="text"], button {
+input[type="text"],
+button {
   padding: 0.5rem;
   font-size: 1rem;
 }
@@ -78,7 +82,8 @@ table {
   border-collapse: collapse;
 }
 
-table th, table td {
+table th,
+table td {
   border: 1px solid #ccc;
   padding: 0.5rem;
   text-align: left;

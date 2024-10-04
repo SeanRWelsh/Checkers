@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserContext } from "../context/User.jsx"
+import { UserContext } from "../context/User.jsx";
 
 function Login({ csrfToken }) {
   const { setUser } = useContext(UserContext);
@@ -21,15 +21,15 @@ function Login({ csrfToken }) {
       body: JSON.stringify(formData),
     }).then((res) => {
       if (res.ok) {
-          const item = res.json()
-          console.log(item)
-          res.json().then((user) => setUser(user));
+        const item = res.json();
+        console.log(item);
+        res.json().then((user) => setUser(user));
         navigate("/");
       } else {
-          //console.log(err.errors)
-        res.json().then((err) =>
-        console.log(err)
-        //setErrors(err.errors)
+        //console.log(err.errors)
+        res.json().then(
+          (err) => console.log(err),
+          //setErrors(err.errors)
         );
       }
     });

@@ -5,7 +5,7 @@ import Game from "./components/game_logic/Game";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import NavBar from "./components/NavBar";
-import { UserProvider } from "./context/User"
+import { UserProvider } from "./context/User";
 
 function App() {
   const [csrfToken, setCsrfToken] = useState("");
@@ -21,14 +21,14 @@ function App() {
   }, []);
 
   return (
-    <div className="App" >
-        <UserProvider>
-      <NavBar/>
-      <Routes>
-        <Route path="/game" element={<Game csrfToken={csrfToken}/>} />
-        <Route path="/login" element={<Login csrfToken={csrfToken} />} />
-        <Route path="/" element={<Home csrfToken={csrfToken} />} />
-      </Routes>
+    <div className="App">
+      <UserProvider>
+        <NavBar csrfToken={csrfToken} />
+        <Routes>
+          <Route path="/game" element={<Game csrfToken={csrfToken} />} />
+          <Route path="/login" element={<Login csrfToken={csrfToken} />} />
+          <Route path="/" element={<Home csrfToken={csrfToken} />} />
+        </Routes>
       </UserProvider>
     </div>
   );
