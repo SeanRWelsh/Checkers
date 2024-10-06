@@ -65,12 +65,22 @@ function NavBar({ csrfToken }) {
   };
   return (
     <header>
+      <h1> Checkers </h1>
       {isLogin && <Login csrfToken={csrfToken} setIsLogin={setIsLogin} />}
-      {!user.username && <button onClick={() => handleLogin()}> Login </button>}
-      {user.username && <button onClick={() => handleLogout()}>Logout</button>}
-      <button onClick={() => startNewGame()}> start game </button>
-      <button onClick={() => resumeGame()}> resume game </button>
-      <button onClick={() => navigate(`/`)}> home </button>
+      {!user.username && (
+        <div className="navButtons">
+          <button onClick={() => handleLogin()}> Login </button>
+          <button onClick={() => handleLogin()}> Signup </button>
+        </div>
+      )}
+      {user.username && (
+        <div className="navButtons">
+          <button onClick={() => startNewGame()}> start game </button>
+          <button onClick={() => resumeGame()}> resume game </button>
+          <button onClick={() => navigate(`/`)}> home </button>
+          <button onClick={() => handleLogout()}>Logout</button>
+        </div>
+      )}
     </header>
   );
 }

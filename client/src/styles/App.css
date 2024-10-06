@@ -1,26 +1,14 @@
-:root {
-  --primary-color: #333;
-  --secondary-color: #007bff;
-  --background-color: #f0f0f0;
-  --white: #fff;
-  --black: #000;
-  --red: #cc0000;
-  --tan: #d2b48c;
-  --brown: #8b4513;
-  --gold: gold;
-  --shadow-color: rgba(0, 0, 0, 0.1);
+/*nav styling*/
+header {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--primary-color);
+  color: var(--white);
+  text-align: center;
+  padding: 1rem;
 }
 
-/* #main-content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  width: 100vw;
-  background-color: var(--background-color);
-  padding: 20px;
-} */
-
+/* Game styling */
 .container {
   display: flex;
   flex-direction: column;
