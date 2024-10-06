@@ -7,7 +7,51 @@ header {
   text-align: center;
   padding: 1rem;
 }
+/*home page*/
+.instructions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 2rem; /* Add padding for spacing */
+  max-width: 1200px;
+  margin: 2rem auto;
+  border: 2px solid var(--primary-color);
+  border-radius: 10px;
+}
 
+.instructionsBox {
+  display: block;
+  padding: 1rem;
+  margin-bottom: 10px;
+  border-bottom: 1px dashed var(--primary-color);
+}
+
+.instructions h1 {
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.instructions h3 {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.instructions p {
+  display: block;
+  line-height: 1.6;
+  margin-left: 10px;
+}
+
+@media (max-width: 768px) {
+  .instructions {
+    max-width: 90%; /* Adjust max-width for mobile devices */
+    padding: 1rem; /* Adjust padding for smaller screens */
+  }
+  .instructions h1 {
+    font-size: 1.5rem; /* Adjust title size for mobile */
+  }
+}
 /* Game styling */
 .container {
   display: flex;
