@@ -6,7 +6,7 @@ const UserContext = React.createContext();
 // create a provider component
 function UserProvider({ children }) {
   const [user, setUser] = useState({ username: false, authorities: false });
-  console.log(user);
+  
   //   useEffect(() => {
   //     fetch("/api/auth").then((res) => {
   //       if (res.ok) {

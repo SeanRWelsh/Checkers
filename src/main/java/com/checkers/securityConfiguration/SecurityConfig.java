@@ -12,6 +12,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
 
 @Configuration
 @EnableWebSecurity
@@ -25,7 +26,8 @@ public class SecurityConfig {
                         .requestMatchers("/login", "/player", "/csrf", "/ws").permitAll()
                         .anyRequest().authenticated()
                 )
-                .securityContext((securityContext) -> securityContext.requireExplicitSave(false));
+                .securityContext((securityContext) -> securityContext.requireExplicitSave(false))
+                .logout((logout) -> logout.logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler()));
 
         return http.build();
     }

@@ -2,12 +2,14 @@ package com.checkers.controllers;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextHolderStrategy;
@@ -42,7 +44,8 @@ public class LoginController {
 	authorization.*/
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, String> login(@RequestBody LoginRequest loginRequest, HttpServletRequest request, HttpServletResponse response) {
+        Map<String, String> responseBody = new HashMap<>();
         try {
             UsernamePasswordAuthenticationToken token = UsernamePasswordAuthenticationToken.unauthenticated(
                     loginRequest.username(), loginRequest.password());
@@ -53,13 +56,16 @@ public class LoginController {
             this.securityContextHolderStrategy.setContext(context);
             securityContextRepository.saveContext(context, request, response);
 
-            //Must change this return
+            responseBody.put("message", "User " + loginRequest.username + " successfully logged in");
+            responseBody.put("user", loginRequest.username);
 
-            return ResponseEntity.ok("User " + loginRequest.username + " successfully logged in");
 
-        } catch (AuthenticationException e) {
-            String errorMessage = "Login failed for user " + loginRequest.username() + ": " + e.getMessage();
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorMessage);
+            return responseBody;
+
+        } catch (BadCredentialsException e) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            responseBody.put("error", "Login failed for user " + loginRequest.username() + ": " + e.getMessage());
+            return responseBody;
 
         }
 

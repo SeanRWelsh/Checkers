@@ -1,4 +1,4 @@
-/* General reset and base styles */
+General reset and base styles
 * {
   margin: 0;
   padding: 0;
@@ -9,6 +9,7 @@ html,
 body {
   height: 100%;
   font-family: Arial, sans-serif;
+  margin: 0;
 }
 
 /* App container to manage overall layout */
@@ -36,16 +37,7 @@ main {
 }
 
 /* Container to centralize main content */
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 2rem;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-}
+
 
 /* Styling for forms and inputs if needed */
 form {
@@ -54,7 +46,7 @@ form {
   gap: 1rem;
 }
 
-input[type="text"],
+input[type="text"], input[type="password"],
 button {
   padding: 0.5rem;
   font-size: 1rem;

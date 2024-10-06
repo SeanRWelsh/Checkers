@@ -1,8 +1,10 @@
 import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/User";
+import Login from "./Login";
 function NavBar({ csrfToken }) {
   const [buttonPressed, setButtonPressed] = useState(true);
+  const [isLogin, setIsLogin] = useState(false);
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
 
@@ -51,20 +53,25 @@ function NavBar({ csrfToken }) {
     }).then((r) => {
       if (r.ok) {
         setUser({ username: false, authorities: false });
+        navigate('/');
       } else {
         console.error("Error fetching data:", r);
       }
     });
   };
 
-  const handleLogin = () => {};
+  const handleLogin = () => {
+    setIsLogin(true);
+  };
   return (
-    <div>
-      <button onClick={() => handleLogin()}> Login </button>
-      <button onClick={() => handleLogout()}>Logout</button>
+    <header>
+      {isLogin && <Login csrfToken={csrfToken} setIsLogin={setIsLogin} />}
+      {!user.username && <button onClick={() => handleLogin()}> Login </button>}
+      {user.username && <button onClick={() => handleLogout()}>Logout</button>}
       <button onClick={() => startNewGame()}> start game </button>
       <button onClick={() => resumeGame()}> resume game </button>
-    </div>
+      <button onClick={()=>navigate(`/`)}> home </button>
+    </header>
   );
 }
 export default NavBar;
