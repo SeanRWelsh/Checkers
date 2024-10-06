@@ -1,4 +1,4 @@
- :root {
+:root {
   --primary-color: #333;
   --secondary-color: #007bff;
   --background-color: #f0f0f0;
@@ -21,14 +21,13 @@
   padding: 20px;
 } */
 
-
 .container {
   display: flex;
   flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    max-width: 1200px;
-    margin: 2rem auto;
+  justify-content: center;
+  align-items: center;
+  max-width: 1200px;
+  margin: 2rem auto;
   height: 90vw;
   max-height: 800px;
   border: 2px solid var(--primary-color);
@@ -65,4 +64,4 @@
 
 .grid-bottom {
   border-bottom: 1px solid var(--black);
-} 
+}

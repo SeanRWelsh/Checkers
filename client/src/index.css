@@ -1,5 +1,4 @@
-General reset and base styles
-* {
+General reset and base styles * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -38,7 +37,6 @@ main {
 
 /* Container to centralize main content */
 
-
 /* Styling for forms and inputs if needed */
 form {
   display: flex;
@@ -46,7 +44,8 @@ form {
   gap: 1rem;
 }
 
-input[type="text"], input[type="password"],
+input[type="text"],
+input[type="password"],
 button {
   padding: 0.5rem;
   font-size: 1rem;

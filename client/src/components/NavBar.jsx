@@ -53,7 +53,7 @@ function NavBar({ csrfToken }) {
     }).then((r) => {
       if (r.ok) {
         setUser({ username: false, authorities: false });
-        navigate('/');
+        navigate("/");
       } else {
         console.error("Error fetching data:", r);
       }
@@ -70,7 +70,7 @@ function NavBar({ csrfToken }) {
       {user.username && <button onClick={() => handleLogout()}>Logout</button>}
       <button onClick={() => startNewGame()}> start game </button>
       <button onClick={() => resumeGame()}> resume game </button>
-      <button onClick={()=>navigate(`/`)}> home </button>
+      <button onClick={() => navigate(`/`)}> home </button>
     </header>
   );
 }
