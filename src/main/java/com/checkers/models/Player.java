@@ -27,28 +27,29 @@ public class Player {
 
     @NotNull
     private String roles;
+
     @Email
     @NotNull
     @Size(max = 80)
     private String email;
+
     @NotNull
     @PositiveOrZero
     @ColumnDefault("0")
     private int wins;
+
     @NotNull
     @PositiveOrZero
     @ColumnDefault("0")
     private int losses;
+
     @NotNull
     @PositiveOrZero
     @ColumnDefault("0")
     private int moves;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "game_players",
-    joinColumns = @JoinColumn(name = "player_id"),
-    inverseJoinColumns = @JoinColumn(name= "game_id"))
-    private Set<Game> gamesPlayed = new HashSet<>();
+    @ManyToMany(mappedBy = "gamePlayers")
+    private List<Game> gamesPlayed = new ArrayList<>();
 
 
     public Player() {
@@ -122,16 +123,16 @@ public class Player {
         this.password = password;
     }
 
-    public Set<Game> getGamesPlayed() {
+    public List<Game> getGamesPlayed() {
         return this.gamesPlayed;
     }
 
-    public void setGamesPlayed(Set<Game> gamesPlayed) {
+    public void setGamesPlayed(List<Game> gamesPlayed) {
         this.gamesPlayed = gamesPlayed;
     }
 
     public void addGame(Game game) {
-            gamesPlayed.add(game);
+            this.gamesPlayed.add(game);
             game.getGamePlayers().add(this);
     }
 

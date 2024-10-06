@@ -6,8 +6,10 @@ import com.checkers.repositories.GameRepository;
 import com.checkers.repositories.PieceRepository;
 import com.checkers.service.GameService;
 
+import org.springframework.messaging.handler.annotation.MessageExceptionHandler;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.stereotype.Controller;
 
 
@@ -23,8 +25,14 @@ public class WebSocketController {
 
     @MessageMapping("/game/{gameId}")
     @SendTo("/topic/{gameId}")
-    public GameDTO makeMove(MoveDTO move){
-        return gameService.makeMove(move);
+    public GameDTO makeMove(MoveDTO move) {
+            return gameService.makeMove(move);
+    }
+
+    @MessageExceptionHandler(IllegalArgumentException.class)
+    @SendToUser(value = "/queue/errors", broadcast = false)
+    public String handleException(IllegalArgumentException exception) {
+        return exception.getMessage();
     }
 
 }

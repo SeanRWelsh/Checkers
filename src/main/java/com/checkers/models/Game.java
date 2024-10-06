@@ -30,8 +30,11 @@ public class Game {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @ManyToMany(mappedBy = "gamesPlayed", fetch = FetchType.EAGER)//, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Player> gamePlayers = new ArrayList<Player>();
+    @ManyToMany
+    @JoinTable(name = "game_players",
+            joinColumns = {@JoinColumn(name = "game_id")},
+            inverseJoinColumns = {@JoinColumn(name = "player_id")})
+    private List<Player> gamePlayers = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "winner_id")
@@ -49,9 +52,9 @@ public class Game {
     public Game() {
         this.startTime = LocalDateTime.now();
         this.status = Status.IN_PROGRESS;
-        this.gamePlayers = new ArrayList<>();
         this.pieces = new HashSet<>();
     }
+
 
     public long getId() {
         return this.id;
@@ -86,9 +89,9 @@ public class Game {
     }
 
     public void addPlayer(Player player) {
-            gamePlayers.add(player);
-            player.addGame(this);
-    //        player.getGamesPlayed().add(this);
+        System.out.println("adding player to Game " + player);
+            this.gamePlayers.add(player);
+            player.getGamesPlayed().add(this);
     }
     public void addPiece(Piece piece) {
         this.pieces.add(piece);
@@ -121,8 +124,10 @@ public class Game {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("game id ").append(getId()).append(" players: ");
         for (Player gamePlayer : gamePlayers) {
+            stringBuilder.append(gamePlayer.getId()).append(", ");
             stringBuilder.append(gamePlayer.getUsername()).append(", ");
         }
+        stringBuilder.append((" players turn " + getPlayerTurn()));
         return stringBuilder.toString();
     }
 

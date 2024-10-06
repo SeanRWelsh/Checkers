@@ -1,0 +1,50 @@
+/* General reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+:root {
+  --primary-color: #333;
+  --secondary-color: #007bff;
+  --background-color: #f0f0f0;
+  --white: #fff;
+  --black: #000;
+  --red: #cc0000;
+  --tan: #d2b48c;
+  --brown: #8b4513;
+  --gold: gold;
+  --shadow-color: rgba(0, 0, 0, 0.75);
+}
+
+/* Styling for forms and inputs if needed */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+input[type="text"],
+input[type="password"],
+button {
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+button {
+  cursor: pointer;
+  background-color: var(--secondary-color);
+  color: var(--white);
+  border: none;
+  border-radius: 4px;
+  margin-left: 10px;
+}
+
+button:hover {
+  filter: brightness(85%);
+}
+
+button:disabled {
+  background-color: #ccc;
+}
