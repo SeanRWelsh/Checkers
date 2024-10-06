@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
-import "./App.css";
+import "./styles/App.css";
 import Game from "./components/game_logic/Game";
 import Home from "./components/Home";
 import Login from "./components/Login";
