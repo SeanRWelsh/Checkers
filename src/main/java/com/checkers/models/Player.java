@@ -26,6 +26,7 @@ public class Player {
     private String password;
 
     @NotNull
+    @ColumnDefault("USER")
     private String roles;
 
     @Email
@@ -51,8 +52,11 @@ public class Player {
     @ManyToMany(mappedBy = "gamePlayers")
     private List<Game> gamesPlayed = new ArrayList<>();
 
-
     public Player() {
+        this.roles = "USER"; // Set default role here
+        this.wins = 0; // Default value
+        this.losses = 0; // Default value
+        this.moves = 0; // Default value
     }
 
     public Long getId() {
@@ -132,8 +136,8 @@ public class Player {
     }
 
     public void addGame(Game game) {
-            this.gamesPlayed.add(game);
-            game.getGamePlayers().add(this);
+        this.gamesPlayed.add(game);
+        game.getGamePlayers().add(this);
     }
 
     public void removeGame(Game game) {

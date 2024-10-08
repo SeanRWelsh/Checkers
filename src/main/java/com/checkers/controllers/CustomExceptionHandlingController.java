@@ -25,6 +25,7 @@ public class CustomExceptionHandlingController extends ResponseEntityExceptionHa
         responseBody.put("timestamp", new Date());
         responseBody.put("status", HttpStatus.BAD_REQUEST.value());
         System.out.println("catching my random forbiddens??");
+        System.out.println(e);
 
         Map<String, String> errors = e.getConstraintViolations()
                 .stream()
@@ -41,6 +42,7 @@ public class CustomExceptionHandlingController extends ResponseEntityExceptionHa
             MethodArgumentNotValidException ex,
             HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         System.out.println("is this catching my stuff");
+        System.out.println(ex);
 
         Map<String, Object> responseBody = new LinkedHashMap<>();
         responseBody.put("timestamp", new Date());

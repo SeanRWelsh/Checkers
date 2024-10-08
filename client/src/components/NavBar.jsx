@@ -61,9 +61,6 @@ function NavBar({ csrfToken }) {
     });
   };
 
-  const handleLogin = (e) => {
-    setIsLogin(e.target.value);
-  };
   return (
     <header>
       <h1> Checkers </h1>
@@ -72,12 +69,10 @@ function NavBar({ csrfToken }) {
       {!user.username && (
         <div className="navButtons">
           <button value="Login" onClick={() => setIsLogin(true)}>
-            {" "}
-            Login{" "}
+            Login
           </button>
           <button value="Signup" onClick={() => setIsSignup(true)}>
-            {" "}
-            Signup{" "}
+            Signup
           </button>
         </div>
       )}

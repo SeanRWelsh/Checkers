@@ -7,11 +7,11 @@ function Signup({ csrfToken, setIsSignup }) {
   const { setUser } = useContext(UserContext);
   const [errors, setErrors] = useState({});
   const [formData, setFormData] = useState({
-    firstName: "",
+    name: "",
     username: "",
     email: "",
     password: "",
-    confirmPassword: "",
+    confirmPassword: ""
   });
   const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ function Signup({ csrfToken, setIsSignup }) {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    fetch(`/api/login`, {
+    fetch(`/api/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -34,7 +34,7 @@ function Signup({ csrfToken, setIsSignup }) {
           setUser({ username: res.user, authorities: false });
           setIsSignup(false);
           setFormData({
-            firstName: "",
+            name: "",
             username: "",
             email: "",
             password: "",
@@ -57,21 +57,20 @@ function Signup({ csrfToken, setIsSignup }) {
     <div id="login" onClick={toggleLogin}>
       <div className="loginContainer">
         <h1>Create an account!</h1>
-        <h3>Signup</h3>
         {errors && <h3>{errors.error}</h3>}
         <form onSubmit={handleLogin}>
-          <div>
-            <label htmlFor="firstName">firstName:</label>
+          
+            <label htmlFor="firstName">first Name:</label>
             <input
               type="text"
               id="firstName"
-              name="firstName"
-              value={formData.firstName}
+              name="name"
+              value={formData.name}
               onChange={(e) => handleChange(e)}
               required
             />
-          </div>
-          <div>
+         
+          
             <label htmlFor="username">Username:</label>
             <input
               type="text"
@@ -81,8 +80,8 @@ function Signup({ csrfToken, setIsSignup }) {
               onChange={(e) => handleChange(e)}
               required
             />
-          </div>
-          <div>
+          
+         
             <label htmlFor="email">email:</label>
             <input
               type="text"
@@ -92,8 +91,7 @@ function Signup({ csrfToken, setIsSignup }) {
               onChange={(e) => handleChange(e)}
               required
             />
-          </div>
-          <div>
+        
             <label htmlFor="password">Password:</label>
             <input
               type="password"
@@ -103,9 +101,8 @@ function Signup({ csrfToken, setIsSignup }) {
               onChange={(e) => handleChange(e)}
               required
             />
-          </div>
-          <div>
-            <label htmlFor="confirmPassword">confirmPassword:</label>
+         
+            <label htmlFor="confirmPassword">confirm Password:</label>
             <input
               type="password"
               id="confirmPassword"
@@ -114,7 +111,7 @@ function Signup({ csrfToken, setIsSignup }) {
               onChange={(e) => handleChange(e)}
               required
             />
-          </div>
+          
           <button type="submit">Signup</button>
         </form>
       </div>

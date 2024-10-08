@@ -21,11 +21,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-//                .csrf((csrf) -> csrf.disable())
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/login", "/player", "/csrf", "/ws").permitAll()
-                        .anyRequest().authenticated()
-                )
+                        .requestMatchers("/login", "/player", "/csrf", "/ws", "/user", "/signup").permitAll()
+                        .anyRequest().authenticated())
                 .securityContext((securityContext) -> securityContext.requireExplicitSave(false))
                 .logout((logout) -> logout.logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler()));
 
@@ -33,10 +31,10 @@ public class SecurityConfig {
     }
 
     // ENDED HERE NEED USEFUL INFORMATION TO FIGURE OUT MORE IS
-    //https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/index.html#servlet-authentication-unpwd
+    // https://docs.spring.io/spring-security/reference/servlet/authentication/passwords/index.html#servlet-authentication-unpwd
     @Bean
     public AuthenticationManager authenticationManager(JpaUserDetailsService jpaUserDetailsService,
-                                                       PasswordEncoder passwordEncoder) throws Exception {
+            PasswordEncoder passwordEncoder) throws Exception {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
         authenticationProvider.setUserDetailsService(jpaUserDetailsService);
         authenticationProvider.setPasswordEncoder(passwordEncoder);
