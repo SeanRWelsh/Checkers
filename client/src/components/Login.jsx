@@ -18,7 +18,7 @@ function Login({ csrfToken, setIsLogin }) {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    fetch(`/api/login`, {
+    fetch(`/api/player/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

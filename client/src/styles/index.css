@@ -48,6 +48,6 @@ button:hover {
 button:disabled {
   background-color: #ccc;
 }
-label{
+label {
   align-self: flex-start;
 }

@@ -11,7 +11,7 @@ function Signup({ csrfToken, setIsSignup }) {
     username: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
   const navigate = useNavigate();
 
@@ -21,7 +21,7 @@ function Signup({ csrfToken, setIsSignup }) {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    fetch(`/api/signup`, {
+    fetch(`/api/player/signup`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -59,59 +59,56 @@ function Signup({ csrfToken, setIsSignup }) {
         <h1>Create an account!</h1>
         {errors && <h3>{errors.error}</h3>}
         <form onSubmit={handleLogin}>
-          
-            <label htmlFor="firstName">first Name:</label>
-            <input
-              type="text"
-              id="firstName"
-              name="name"
-              value={formData.name}
-              onChange={(e) => handleChange(e)}
-              required
-            />
-         
-          
-            <label htmlFor="username">Username:</label>
-            <input
-              type="text"
-              id="username"
-              name="username"
-              value={formData.username}
-              onChange={(e) => handleChange(e)}
-              required
-            />
-          
-         
-            <label htmlFor="email">email:</label>
-            <input
-              type="text"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={(e) => handleChange(e)}
-              required
-            />
-        
-            <label htmlFor="password">Password:</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              value={formData.password}
-              onChange={(e) => handleChange(e)}
-              required
-            />
-         
-            <label htmlFor="confirmPassword">confirm Password:</label>
-            <input
-              type="password"
-              id="confirmPassword"
-              name="confirmPassword"
-              value={formData.confirmPassword}
-              onChange={(e) => handleChange(e)}
-              required
-            />
-          
+          <label htmlFor="firstName">first Name:</label>
+          <input
+            type="text"
+            id="firstName"
+            name="name"
+            value={formData.name}
+            onChange={(e) => handleChange(e)}
+            required
+          />
+
+          <label htmlFor="username">Username:</label>
+          <input
+            type="text"
+            id="username"
+            name="username"
+            value={formData.username}
+            onChange={(e) => handleChange(e)}
+            required
+          />
+
+          <label htmlFor="email">email:</label>
+          <input
+            type="text"
+            id="email"
+            name="email"
+            value={formData.email}
+            onChange={(e) => handleChange(e)}
+            required
+          />
+
+          <label htmlFor="password">Password:</label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            value={formData.password}
+            onChange={(e) => handleChange(e)}
+            required
+          />
+
+          <label htmlFor="confirmPassword">confirm Password:</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            value={formData.confirmPassword}
+            onChange={(e) => handleChange(e)}
+            required
+          />
+
           <button type="submit">Signup</button>
         </form>
       </div>

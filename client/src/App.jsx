@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from "react";
 import "./styles/App.css";
 import Game from "./components/game_logic/Game";
 import Home from "./components/Home";
-import Login from "./components/Login";
+
 import NavBar from "./components/NavBar";
 import { UserContext } from "./context/User";
 
@@ -23,7 +23,7 @@ function App() {
   const { setUser } = useContext(UserContext);
   useEffect(() => {
     // Fetch user information from Spring Security's endpoint
-    fetch("/api/user")
+    fetch("/api/player")
       .then((r) => r.json())
       .then((r) => setUser({ username: r.username, authorities: false }))
       .catch((err) => console.log(err));
@@ -34,7 +34,6 @@ function App() {
       <NavBar csrfToken={csrfToken} />
       <Routes>
         <Route path="/game" element={<Game csrfToken={csrfToken} />} />
-        <Route path="/login" element={<Login csrfToken={csrfToken} />} />
         <Route path="/" element={<Home csrfToken={csrfToken} />} />
       </Routes>
     </div>

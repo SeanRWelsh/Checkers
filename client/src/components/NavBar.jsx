@@ -20,7 +20,6 @@ function NavBar({ csrfToken }) {
     }).then((r) => {
       if (r.ok) {
         r.json().then((r) => {
-          console.log(r);
           navigate("/game", { state: { game: r } });
         });
       }
@@ -37,7 +36,6 @@ function NavBar({ csrfToken }) {
     }).then((r) => {
       if (r.ok) {
         r.json().then((r) => {
-          console.log(r);
           navigate(`/game`, { state: { game: r } });
         });
       }
@@ -55,6 +53,7 @@ function NavBar({ csrfToken }) {
       if (r.ok) {
         setUser({ username: false, authorities: false });
         navigate("/");
+        window.location.reload();
       } else {
         console.error("Error fetching data:", r);
       }
