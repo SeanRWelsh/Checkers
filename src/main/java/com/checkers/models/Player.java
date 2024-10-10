@@ -147,7 +147,8 @@ public class Player {
 
     @Override
     public String toString() {
-        return "player username is " + this.username + " player has " + this.wins + " wins" +
+        return "player id is " + this.id + " player username is " + this.username + " player has " + this.wins + " wins"
+                +
                 " and has played in " + this.gamesPlayed.size();
     }
 
