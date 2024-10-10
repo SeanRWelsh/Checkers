@@ -6,6 +6,8 @@ import "../styles/Login.css";
 function Signup({ csrfToken, setIsSignup }) {
   const { setUser } = useContext(UserContext);
   const [errors, setErrors] = useState({});
+  console.log(errors);
+
   const [formData, setFormData] = useState({
     name: "",
     username: "",
@@ -21,6 +23,8 @@ function Signup({ csrfToken, setIsSignup }) {
 
   const handleLogin = (e) => {
     e.preventDefault();
+    if (formData.password !== formData.confirmPassword)
+      return setErrors({ password: "passwords do not match" });
     fetch(`/api/player/signup`, {
       method: "POST",
       headers: {
@@ -43,8 +47,7 @@ function Signup({ csrfToken, setIsSignup }) {
         });
         navigate("/");
       } else {
-        res.json().then((res) => console.log(res.errors));
-        //setErrors({ error: res.error }));
+        res.json().then((res) => setErrors(res));
       }
     });
   };
@@ -58,7 +61,7 @@ function Signup({ csrfToken, setIsSignup }) {
     <div id="login" onClick={toggleLogin}>
       <div className="loginContainer">
         <h1>Create an account!</h1>
-        {errors && <h3>{errors.error}</h3>}
+        {errors.password && <h3>{errors.password}</h3>}
         <form onSubmit={handleLogin}>
           <label htmlFor="firstName">first Name:</label>
           <input
@@ -79,6 +82,7 @@ function Signup({ csrfToken, setIsSignup }) {
             onChange={(e) => handleChange(e)}
             required
           />
+          {errors.username && <div className="error">{errors.username}</div>}
 
           <label htmlFor="email">email:</label>
           <input
@@ -89,6 +93,7 @@ function Signup({ csrfToken, setIsSignup }) {
             onChange={(e) => handleChange(e)}
             required
           />
+          {errors.email && <div className="error">{errors.email}</div>}
 
           <label htmlFor="password">Password:</label>
           <input
@@ -99,6 +104,7 @@ function Signup({ csrfToken, setIsSignup }) {
             onChange={(e) => handleChange(e)}
             required
           />
+          {errors.password && <div className="error">{errors.password}</div>}
 
           <label htmlFor="confirmPassword">confirm Password:</label>
           <input
@@ -109,6 +115,7 @@ function Signup({ csrfToken, setIsSignup }) {
             onChange={(e) => handleChange(e)}
             required
           />
+          {errors.password && <div className="error">{errors.password}</div>}
 
           <button type="submit">Signup</button>
         </form>
