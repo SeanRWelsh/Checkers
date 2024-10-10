@@ -3,9 +3,7 @@ package com.checkers.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.hibernate.annotations.ColumnDefault;
-import java.util.Set;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 @Entity
@@ -18,7 +16,8 @@ public class Player {
     @NotBlank(message = "name cannot be blank.")
     @Size(max = 50)
     private String name;
-    @Column(name = "username")
+
+    @Column(name = "username", unique=true)
     @Size(max = 50)
     private String username;
 
@@ -32,6 +31,7 @@ public class Player {
     @Email
     @NotNull
     @Size(max = 80)
+    @Column(name = "email" , unique = true)
     private String email;
 
     @NotNull

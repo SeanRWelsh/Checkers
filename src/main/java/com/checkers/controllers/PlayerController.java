@@ -17,7 +17,6 @@ import org.springframework.security.core.context.SecurityContextHolderStrategy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.security.web.context.SecurityContextRepository;
-
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -99,6 +98,7 @@ public class PlayerController {
     @PostMapping("/signup")
     public Map<String, String> signUp(@RequestBody Player player, HttpServletRequest request,
             HttpServletResponse response) {
+
         LoginRequest loginAfterSignup = new LoginRequest(player.getUsername(), player.getPassword());
         player.setPassword(passwordEncoder.encode(player.getPassword()));
         playerRepository.save(player);
