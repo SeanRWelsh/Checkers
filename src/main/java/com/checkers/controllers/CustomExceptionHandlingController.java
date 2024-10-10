@@ -1,6 +1,8 @@
 package com.checkers.controllers;
 
 import jakarta.validation.ConstraintViolationException;
+
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -33,6 +35,24 @@ public class CustomExceptionHandlingController extends ResponseEntityExceptionHa
                         violation -> violation.getMessage()));
 
         responseBody.put("errors", errors);
+
+        return ResponseEntity.badRequest().body(responseBody);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    protected ResponseEntity<Object> handdleDataIntegrityViolationException(DataIntegrityViolationException e) {
+        Map<String, Object> responseBody = new LinkedHashMap<>();
+        responseBody.put("timestamp", new Date());
+        responseBody.put("status", HttpStatus.BAD_REQUEST.value());
+
+        String errors = e.getRootCause().getMessage();
+        if (errors.contains("Key (username")) {
+            responseBody.put("errors", "Username already exists");
+        } else if (errors.contains("Detail: Key (email)")) {
+            responseBody.put("errors", "Email already in use");
+        } else {
+            responseBody.put("errors", e.getRootCause().getMessage());
+        }
 
         return ResponseEntity.badRequest().body(responseBody);
     }

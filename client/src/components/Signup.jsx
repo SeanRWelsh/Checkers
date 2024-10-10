@@ -43,7 +43,8 @@ function Signup({ csrfToken, setIsSignup }) {
         });
         navigate("/");
       } else {
-        res.json().then((res) => setErrors({ error: res.error }));
+        res.json().then((res) => console.log(res.errors));
+        //setErrors({ error: res.error }));
       }
     });
   };
