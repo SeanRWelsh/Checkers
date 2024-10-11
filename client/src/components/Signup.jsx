@@ -61,60 +61,66 @@ function Signup({ csrfToken, setIsSignup }) {
     <div id="login" onClick={toggleLogin}>
       <div className="loginContainer">
         <h1>Create an account!</h1>
-        {errors.password && <h3>{errors.password}</h3>}
         <form onSubmit={handleLogin}>
-          <label htmlFor="firstName">first Name:</label>
-          <input
-            type="text"
-            id="firstName"
-            name="name"
-            value={formData.name}
-            onChange={(e) => handleChange(e)}
-            required
-          />
+          <div className="inputBox">
+            <label htmlFor="firstName">first Name:</label>
+            <input
+              type="text"
+              id="firstName"
+              name="name"
+              value={formData.name}
+              onChange={(e) => handleChange(e)}
+              required
+            />
+          </div>
 
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={formData.username}
-            onChange={(e) => handleChange(e)}
-            required
-          />
+          <div className="inputBox">
+            <label htmlFor="username">Username:</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              value={formData.username}
+              onChange={(e) => handleChange(e)}
+              required
+            />
+          </div>
           {errors.username && <div className="error">{errors.username}</div>}
-
-          <label htmlFor="email">email:</label>
-          <input
-            type="text"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={(e) => handleChange(e)}
-            required
-          />
+          <div className="inputBox">
+            <label htmlFor="email">email:</label>
+            <input
+              type="text"
+              id="email"
+              name="email"
+              value={formData.email}
+              onChange={(e) => handleChange(e)}
+              required
+            />
+          </div>
           {errors.email && <div className="error">{errors.email}</div>}
-
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={(e) => handleChange(e)}
-            required
-          />
+          <div className="inputBox">
+            <label htmlFor="password">Password:</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={(e) => handleChange(e)}
+              required
+            />
+          </div>
           {errors.password && <div className="error">{errors.password}</div>}
-
-          <label htmlFor="confirmPassword">confirm Password:</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            name="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={(e) => handleChange(e)}
-            required
-          />
+          <div className="inputBox">
+            <label htmlFor="confirmPassword">confirm Password:</label>
+            <input
+              type="password"
+              id="confirmPassword"
+              name="confirmPassword"
+              value={formData.confirmPassword}
+              onChange={(e) => handleChange(e)}
+              required
+            />
+          </div>
           {errors.password && <div className="error">{errors.password}</div>}
 
           <button type="submit">Signup</button>

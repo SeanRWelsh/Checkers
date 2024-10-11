@@ -19,18 +19,6 @@
 }
 
 /* Styling for forms and inputs if needed */
-form {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-input[type="text"],
-input[type="password"],
-button {
-  padding: 0.5rem;
-  font-size: 1rem;
-}
 
 button {
   cursor: pointer;
@@ -47,7 +35,4 @@ button:hover {
 
 button:disabled {
   background-color: #ccc;
-}
-label {
-  align-self: flex-start;
 }
