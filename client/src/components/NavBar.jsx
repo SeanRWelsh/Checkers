@@ -27,7 +27,7 @@ function NavBar({ csrfToken }) {
   };
 
   const resumeGame = () => {
-    fetch(`/api/game/21`, {
+    fetch(`/api/game/25`, {
       method: "get",
       headers: {
         "Content-Type": "application/json",

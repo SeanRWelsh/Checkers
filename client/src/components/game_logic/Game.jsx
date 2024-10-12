@@ -12,9 +12,11 @@ function Game({ csrfToken }) {
 
   useEffect(() => {
     const client = new Client({
-      brokerURL: "ws://192.168.0.107:8080/ws",
+      brokerURL: "/ws/ws", //url is this way to utilize vite proxy in order to send the web socket from the same origin
+      // as the rest of the site. This will allow for the JSESSIONID to be attached with
+      //websocket requests so that websocket requests can utilize it for authorization
       //                 connectHeaders:{
-      //                     'X-CSRF-TOKEN': csrfToken},
+      //                     'X-CSRF-TOKEN': csrfToken},    do I need this?
       onConnect: (frame) => {
         setConnected(true);
         console.log("Connected: " + frame);
@@ -26,6 +28,7 @@ function Game({ csrfToken }) {
         });
         client.subscribe("/user/queue/errors", (message) => {
           console.log("Error received: " + message.body);
+          alert(message.body);
         });
       },
       onWebSocketError: (error) => {

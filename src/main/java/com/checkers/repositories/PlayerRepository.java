@@ -24,6 +24,8 @@ public interface PlayerRepository extends JpaRepository<Player, Long> {
         return null;
     }
 
+    Player findPlayerByUsername(String username);
+
     Optional<SecurityUserDetails> findSecurityUserByUsername(String username);
 
 }

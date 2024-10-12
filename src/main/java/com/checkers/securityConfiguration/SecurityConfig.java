@@ -20,7 +20,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/player/login", "/player", "/csrf", "/ws", "/player/signup").permitAll()
+                        .requestMatchers("/player/login", "/player", "/csrf", "/player/signup").permitAll()
                         .anyRequest().authenticated())
                 .securityContext((securityContext) -> securityContext.requireExplicitSave(false))
                 .logout((logout) -> logout.logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler()));
