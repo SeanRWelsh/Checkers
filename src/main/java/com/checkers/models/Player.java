@@ -3,9 +3,7 @@ package com.checkers.models;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import org.hibernate.annotations.ColumnDefault;
-import java.util.Set;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 @Entity
@@ -18,7 +16,8 @@ public class Player {
     @NotBlank(message = "name cannot be blank.")
     @Size(max = 50)
     private String name;
-    @Column(name = "username")
+
+    @Column(name = "username", unique=true)
     @Size(max = 50)
     private String username;
 
@@ -26,11 +25,13 @@ public class Player {
     private String password;
 
     @NotNull
+    @ColumnDefault("USER")
     private String roles;
 
     @Email
     @NotNull
     @Size(max = 80)
+    @Column(name = "email" , unique = true)
     private String email;
 
     @NotNull
@@ -51,8 +52,11 @@ public class Player {
     @ManyToMany(mappedBy = "gamePlayers")
     private List<Game> gamesPlayed = new ArrayList<>();
 
-
     public Player() {
+        this.roles = "USER"; // Set default role here
+        this.wins = 0; // Default value
+        this.losses = 0; // Default value
+        this.moves = 0; // Default value
     }
 
     public Long getId() {
@@ -132,8 +136,8 @@ public class Player {
     }
 
     public void addGame(Game game) {
-            this.gamesPlayed.add(game);
-            game.getGamePlayers().add(this);
+        this.gamesPlayed.add(game);
+        game.getGamePlayers().add(this);
     }
 
     public void removeGame(Game game) {
@@ -143,7 +147,8 @@ public class Player {
 
     @Override
     public String toString() {
-        return "player username is " + this.username + " player has " + this.wins + " wins" +
+        return "player id is " + this.id + " player username is " + this.username + " player has " + this.wins + " wins"
+                +
                 " and has played in " + this.gamesPlayed.size();
     }
 

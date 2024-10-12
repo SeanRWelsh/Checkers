@@ -2,8 +2,9 @@ import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/User";
 import Login from "./Login";
+import Signup from "./Signup";
 function NavBar({ csrfToken }) {
-  const [buttonPressed, setButtonPressed] = useState(true);
+  const [isSignup, setIsSignup] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
@@ -19,7 +20,6 @@ function NavBar({ csrfToken }) {
     }).then((r) => {
       if (r.ok) {
         r.json().then((r) => {
-          console.log(r);
           navigate("/game", { state: { game: r } });
         });
       }
@@ -36,7 +36,6 @@ function NavBar({ csrfToken }) {
     }).then((r) => {
       if (r.ok) {
         r.json().then((r) => {
-          console.log(r);
           navigate(`/game`, { state: { game: r } });
         });
       }
@@ -54,23 +53,26 @@ function NavBar({ csrfToken }) {
       if (r.ok) {
         setUser({ username: false, authorities: false });
         navigate("/");
+        window.location.reload();
       } else {
         console.error("Error fetching data:", r);
       }
     });
   };
 
-  const handleLogin = () => {
-    setIsLogin(true);
-  };
   return (
     <header>
       <h1> Checkers </h1>
       {isLogin && <Login csrfToken={csrfToken} setIsLogin={setIsLogin} />}
+      {isSignup && <Signup csrfToken={csrfToken} setIsSignup={setIsSignup} />}
       {!user.username && (
         <div className="navButtons">
-          <button onClick={() => handleLogin()}> Login </button>
-          <button onClick={() => handleLogin()}> Signup </button>
+          <button value="Login" onClick={() => setIsLogin(true)}>
+            Login
+          </button>
+          <button value="Signup" onClick={() => setIsSignup(true)}>
+            Signup
+          </button>
         </div>
       )}
       {user.username && (

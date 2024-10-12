@@ -23,3 +23,76 @@
   right: 0;
   z-index: 100;
 }
+
+.error {
+  color: red;
+  align-self: flex-start;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-between; */
+  gap: 1rem;
+}
+
+input[type="text"],
+input[type="password"],
+button {
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+button {
+  cursor: pointer;
+  background-color: var(--secondary-color);
+  color: var(--white);
+  border: none;
+  border-radius: 4px;
+  margin-left: 10px;
+}
+
+button:hover {
+  filter: brightness(85%);
+}
+
+button:disabled {
+  background-color: #ccc;
+}
+label {
+  align-self: flex-start;
+}
+
+@media (max-height: 1244px) or (max-width: 1080px) {
+  .loginContainer {
+    width: 50%;
+    left: 25%;
+  }
+  form {
+    justify-content: space-around;
+    width: 60%;
+    gap: 1rem;
+    min-height: 60%;
+  }
+
+  .inputBox {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  input[type="text"],
+  input[type="password"],
+  button {
+    max-width: 55%;
+    max-height: 2em;
+  }
+  button {
+    align-self: center;
+  }
+}
+@media (max-width: 987px) {
+  form {
+    width: 100%;
+  }
+}
