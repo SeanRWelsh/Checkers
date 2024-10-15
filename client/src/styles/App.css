@@ -53,12 +53,12 @@ header {
   }
 }
 /* Game styling */
-.container {
+.boardContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  max-width: 1200px;
+  min-width: 1200px;
   margin: 2rem auto;
   height: 90vw;
   max-height: 800px;
@@ -97,3 +97,38 @@ header {
 .grid-bottom {
   border-bottom: 1px solid var(--black);
 }
+.playerDataContainer {
+  border-style: double;
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-self: center;
+  padding: 1rem;
+  margin: 0 auto;
+}
+#gamePage {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding: 2rem;
+}
+.playerContainer {
+  display: inline-flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 100%;
+  height: 80%;
+  margin-bottom: 2%;
+}
+
+.playerDataContainer .checker-piece {
+  width: 50px; /* Fixed size for checkers in player data */
+  height: 50px;
+  border-radius: 50%;
+}
+
+/* #arrow{
+  align-self: center;
+} */

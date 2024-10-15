@@ -36,6 +36,7 @@ function NavBar({ csrfToken }) {
     }).then((r) => {
       if (r.ok) {
         r.json().then((r) => {
+          console.log(r);
           navigate(`/game`, { state: { game: r } });
         });
       }
