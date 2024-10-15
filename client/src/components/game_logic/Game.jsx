@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Client } from "@stomp/stompjs";
 import GameGrid from "./GameGrid";
 import { useLocation } from "react-router-dom";
+import PlayerUI from "./PlayerUI";
 function Game({ csrfToken }) {
   const [connected, setConnected] = useState(false);
   const [stompClient, setStompClient] = useState(null);
@@ -52,10 +53,16 @@ function Game({ csrfToken }) {
   }, [gameId]);
 
   return (
-    <div className="container">
-      <GameGrid game={gameState} stompClient={stompClient} />
+    <div id="gamePage">
+      <PlayerUI
+        gamePlayers={gameState.players}
+        playerTurn={gameState.player_turn}
+      />
+
+      <div className="boardContainer">
+        <GameGrid game={gameState} stompClient={stompClient} />
+      </div>
     </div>
   );
 }
-
 export default Game;
