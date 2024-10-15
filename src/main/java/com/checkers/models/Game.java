@@ -3,7 +3,6 @@ package com.checkers.models;
 import com.checkers.models.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import org.hibernate.annotations.ColumnDefault;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -20,7 +19,6 @@ public class Game {
 
     @NotNull
     @Enumerated(EnumType.STRING)
-    @ColumnDefault("IN_PROGRESS")
     private Status status;
 
     @Column(name = "start_time")
@@ -31,9 +29,8 @@ public class Game {
     private LocalDateTime updatedAt;
 
     @ManyToMany
-    @JoinTable(name = "game_players",
-            joinColumns = {@JoinColumn(name = "game_id")},
-            inverseJoinColumns = {@JoinColumn(name = "player_id")})
+    @JoinTable(name = "game_players", joinColumns = { @JoinColumn(name = "game_id") }, inverseJoinColumns = {
+            @JoinColumn(name = "player_id") })
     private List<Player> gamePlayers = new ArrayList<>();
 
     @ManyToOne
@@ -44,17 +41,14 @@ public class Game {
     @JoinColumn(name = "player_turn")
     private Player playerTurn;
 
-    @OneToMany(mappedBy="game", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<Piece> pieces;
-
-
 
     public Game() {
         this.startTime = LocalDateTime.now();
         this.status = Status.IN_PROGRESS;
         this.pieces = new HashSet<>();
     }
-
 
     public long getId() {
         return this.id;
@@ -90,14 +84,15 @@ public class Game {
 
     public void addPlayer(Player player) {
         System.out.println("adding player to Game " + player);
-            this.gamePlayers.add(player);
-            player.getGamesPlayed().add(this);
+        this.gamePlayers.add(player);
+        player.getGamesPlayed().add(this);
     }
+
     public void addPiece(Piece piece) {
         this.pieces.add(piece);
     }
 
-    public void removePiece(Piece piece){
+    public void removePiece(Piece piece) {
         this.pieces.remove(piece);
     }
 
@@ -106,19 +101,17 @@ public class Game {
         player.getGamesPlayed().remove(this);
     }
 
-    public Player getPlayerTurn(){
+    public Player getPlayerTurn() {
         return playerTurn;
     }
 
-    public void setPlayerTurn(Player player){
+    public void setPlayerTurn(Player player) {
         this.playerTurn = player;
     }
 
     public void setGamePlayers(List<Player> gamePlayers) {
         this.gamePlayers = gamePlayers;
     }
-
-
 
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
