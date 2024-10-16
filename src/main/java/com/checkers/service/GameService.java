@@ -31,44 +31,6 @@ public class GameService {
         this.pieceRepository = pieceRepository;
     }
 
-    public Game createGame(long player1_id, long player2_id) {
-        Player player1 = playerRepository.findById(player1_id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Player with id " + player1_id + " not found."));
-        Player player2 = playerRepository.findById(player2_id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
-                        "Player with id " + player2_id + " not found."));
-        Game newGame = new Game();
-        newGame.addPlayer(player1);
-        newGame.addPlayer(player2);
-        newGame.setPlayerTurn(player1);
-        createPieces(newGame, player1, player2);
-
-        return gameRepository.save(newGame);
-    }
-
-    private void createPieces(Game game, Player player1, Player player2) {
-        PieceColor pieceColor = PieceColor.RED;
-        Player player = player1;
-        int column = 0;
-
-        for (int row = 0; row <= 7; row++) {
-            if (row % 2 != 0)
-                column = 1;
-            while (column <= 7) {
-                Piece piece = new Piece(pieceColor, false, row, column, game, player);
-                game.addPiece(piece);
-                column += 2;
-            }
-            column = 0;
-            if (row == 2) {
-                row = 4;
-                pieceColor = PieceColor.BLACK;
-                player = player2;
-            }
-        }
-    }
-
     @Transactional
     public GameDTO makeMove(MoveDTO move, Principal principal) {
         Player playerAttemptingMove = playerRepository.findPlayerByUsername(principal.getName());
