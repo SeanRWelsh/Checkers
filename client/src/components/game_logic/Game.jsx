@@ -17,7 +17,7 @@ function Game({ csrfToken }) {
       // as the rest of the site. This will allow for the JSESSIONID to be attached with
       //websocket requests so that websocket requests can utilize it for authorization
       //                 connectHeaders:{
-      //                     'X-CSRF-TOKEN': csrfToken},    do I need this?
+      //                     'X-CSRF-TOKEN': csrfToken},    do I need this for production?
       onConnect: (frame) => {
         setConnected(true);
         console.log("Connected: " + frame);
@@ -28,7 +28,6 @@ function Game({ csrfToken }) {
           console.log(parsedData);
         });
         client.subscribe("/user/queue/errors", (message) => {
-          console.log("Error received: " + message.body);
           alert(message.body);
         });
       },
