@@ -39,6 +39,7 @@ public class WebSocketController {
 
     @MessageMapping("/startGame")
     public void startGame(Principal principal) {
+        System.out.println("made it here");
         startGameService.queue(principal.getName());
     }
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 // create the context
 const UserContext = React.createContext();
@@ -7,13 +7,6 @@ const UserContext = React.createContext();
 function UserProvider({ children }) {
   const [user, setUser] = useState({ username: false, authorities: false });
 
-  //   useEffect(() => {
-  //     fetch("/api/auth").then((res) => {
-  //       if (res.ok) {
-  //         res.json().then((user) => setUser(user));
-  //       }
-  //     });
-  //   }, []);
   // the value prop of the provider will be our context data
   // this value will be available to child components of this provider
   return (

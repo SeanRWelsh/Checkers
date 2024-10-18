@@ -4,6 +4,7 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Service;
 
 import com.checkers.models.Game;
 import com.checkers.models.Piece;
@@ -12,6 +13,7 @@ import com.checkers.models.enums.PieceColor;
 import com.checkers.repositories.GameRepository;
 import com.checkers.repositories.PlayerRepository;
 
+@Service
 public class StartGameService {
     private final Queue<String> queue;
     private final SimpMessagingTemplate messagingTemplate;
