@@ -3,6 +3,7 @@ package com.checkers.controllers;
 import com.checkers.dtos.GameDTO;
 import com.checkers.dtos.MoveDTO;
 import com.checkers.service.GameService;
+import com.checkers.service.StartGameService;
 
 import java.security.Principal;
 
@@ -15,9 +16,11 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class WebSocketController {
     private final GameService gameService;
+    private final StartGameService startGameService;
 
-    public WebSocketController(GameService gameService) {
+    public WebSocketController(GameService gameService, StartGameService startGameService) {
         this.gameService = gameService;
+        this.startGameService = startGameService;
     }
 
     @MessageMapping("/game/{gameId}")
@@ -32,6 +35,12 @@ public class WebSocketController {
     @SendToUser(value = "/queue/errors", broadcast = false)
     public String handleException(IllegalArgumentException exception) {
         return exception.getMessage();
+    }
+
+    @MessageMapping("/startGame")
+    public void startGame(Principal principal) {
+        System.out.println("made it here");
+        startGameService.queue(principal.getName());
     }
 
 }

@@ -21,12 +21,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/game")
 public class GameController {
     private final GameRepository gameRepository;
-    private final GameService gameService;
     private final PlayerRepository playerRepository;
 
-    public GameController(GameRepository gameRepository, GameService gameService, PlayerRepository playerRepository) {
+    public GameController(GameRepository gameRepository, PlayerRepository playerRepository) {
         this.gameRepository = gameRepository;
-        this.gameService = gameService;
         this.playerRepository = playerRepository;
     }
 
@@ -40,12 +38,6 @@ public class GameController {
         Pageable pageable = PageRequest.of(0, 1);
         Game game = gameRepository.findMostRecentGame(player.getId(), pageable).get(0);
         return ResponseEntity.status(HttpStatus.OK).body(new GameDTO(game));
-    }
-
-    @PostMapping
-    public ResponseEntity<GameDTO> createGame(@RequestBody @NotNull CreateGameRequest createGameRequest) {
-        Game newGame = gameService.createGame(createGameRequest.player1_id, createGameRequest.player2_id);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new GameDTO(newGame));
     }
 
     public record CreateGameRequest(long player1_id, long player2_id) {

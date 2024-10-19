@@ -1,29 +1,31 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../context/User";
 import Login from "./Login";
 import Signup from "./Signup";
-function NavBar({ csrfToken }) {
+function NavBar({ stompClient }) {
+  const [csrfToken, setCsrfToken] = useState("");
   const [isSignup, setIsSignup] = useState(false);
   const [isLogin, setIsLogin] = useState(false);
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
 
+  const fetchCsrfToken = () => {
+    fetch("/api/csrf")
+      .then((r) => r.json())
+      .then((r) => {
+        setCsrfToken(r.token);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  };
+  useEffect(() => {
+    fetchCsrfToken();
+  }, []);
+
   const startNewGame = () => {
-    fetch(`/api/game`, {
-      method: "post",
-      headers: {
-        "Content-Type": "application/json",
-        "X-CSRF-TOKEN": csrfToken,
-      },
-      body: JSON.stringify({ player1_id: 1, player2_id: 3 }),
-    }).then((r) => {
-      if (r.ok) {
-        r.json().then((r) => {
-          navigate("/game", { state: { game: r } });
-        });
-      }
-    });
+    navigate("/matchMaking");
   };
 
   const resumeGame = () => {
@@ -31,7 +33,7 @@ function NavBar({ csrfToken }) {
       method: "get",
       headers: {
         "Content-Type": "application/json",
-        "X-CSRF-TOKEN": csrfToken,
+        // "X-CSRF-TOKEN": csrfToken,
       },
     }).then((r) => {
       if (r.ok) {
@@ -53,8 +55,9 @@ function NavBar({ csrfToken }) {
     }).then((r) => {
       if (r.ok) {
         setUser({ username: false, authorities: false });
+        fetchCsrfToken();
         navigate("/");
-        window.location.reload();
+        // window.location.reload();
       } else {
         console.error("Error fetching data:", r);
       }
