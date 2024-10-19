@@ -6,12 +6,15 @@ import java.util.Queue;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
+import com.checkers.dtos.GameDTO;
 import com.checkers.models.Game;
 import com.checkers.models.Piece;
 import com.checkers.models.Player;
 import com.checkers.models.enums.PieceColor;
 import com.checkers.repositories.GameRepository;
 import com.checkers.repositories.PlayerRepository;
+
+import jakarta.transaction.Transactional;
 
 @Service
 public class StartGameService {
@@ -28,6 +31,7 @@ public class StartGameService {
         this.gameRepository = gameRepository;
     }
 
+    @Transactional
     public void queue(String userName) {
         if (queue.isEmpty()) {
             queue.add(userName);
@@ -37,8 +41,8 @@ public class StartGameService {
             String player2 = userName;
 
             Game newGame = createGame(player1, player2);
-            this.messagingTemplate.convertAndSendToUser(player1, "/startGame", newGame);
-            this.messagingTemplate.convertAndSendToUser(player2, "/startGame", newGame);
+            this.messagingTemplate.convertAndSendToUser(player1, "/queue/startGame", new GameDTO(newGame));
+            this.messagingTemplate.convertAndSendToUser(player2, "/queue/startGame", new GameDTO(newGame));
         }
 
     }

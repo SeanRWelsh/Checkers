@@ -25,9 +25,7 @@ function NavBar({ stompClient }) {
   }, []);
 
   const startNewGame = () => {
-    stompClient.publish({
-      destination: `/app/startGame`,
-    }); //ended here
+    navigate("/matchMaking");
   };
 
   const resumeGame = () => {

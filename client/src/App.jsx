@@ -7,6 +7,7 @@ import { Client } from "@stomp/stompjs";
 
 import NavBar from "./components/NavBar";
 import { UserContext } from "./context/User";
+import MatchMaking from "./components/MatchMaking";
 
 function App() {
   const { user, setUser } = useContext(UserContext);
@@ -69,6 +70,10 @@ function App() {
       <Routes>
         <Route path="/game" element={<Game stompClient={stompClient} />} />
         <Route path="/" element={<Home />} />
+        <Route
+          path="/matchMaking"
+          element={<MatchMaking stompClient={stompClient} />}
+        />
       </Routes>
     </div>
   );
