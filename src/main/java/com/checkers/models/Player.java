@@ -17,7 +17,7 @@ public class Player {
     @Size(max = 50)
     private String name;
 
-    @Column(name = "username", unique=true)
+    @Column(name = "username", unique = true)
     @Size(max = 50)
     private String username;
 
@@ -31,7 +31,7 @@ public class Player {
     @Email
     @NotNull
     @Size(max = 80)
-    @Column(name = "email" , unique = true)
+    @Column(name = "email", unique = true)
     private String email;
 
     @NotNull
@@ -49,8 +49,8 @@ public class Player {
     @ColumnDefault("0")
     private int moves;
 
-    @ManyToMany(mappedBy = "gamePlayers")
-    private List<Game> gamesPlayed = new ArrayList<>();
+    @OneToMany(mappedBy = "player", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<GamePlayer> gamePlayers = new ArrayList<>();
 
     public Player() {
         this.roles = "USER"; // Set default role here
@@ -127,29 +127,28 @@ public class Player {
         this.password = password;
     }
 
-    public List<Game> getGamesPlayed() {
-        return this.gamesPlayed;
+    public List<GamePlayer> getGamePlayers() {
+        return this.gamePlayers;
     }
 
-    public void setGamesPlayed(List<Game> gamesPlayed) {
-        this.gamesPlayed = gamesPlayed;
+    public void setGamePlayers(List<GamePlayer> gamePlayers) {
+        this.gamePlayers = gamePlayers;
     }
 
-    public void addGame(Game game) {
-        this.gamesPlayed.add(game);
-        game.getGamePlayers().add(this);
+    public void addGamePlayer(GamePlayer gamePlayer) {
+        this.gamePlayers.add(gamePlayer);
+        gamePlayer.setPlayer(this); // Set the player in the GamePlayer
     }
 
-    public void removeGame(Game game) {
-        gamesPlayed.remove(game);
-        game.getGamePlayers().remove(this);
+    public void removeGamePlayer(GamePlayer gamePlayer) {
+        this.gamePlayers.remove(gamePlayer);
+        gamePlayer.setPlayer(null); // Unset the player in the GamePlayer
     }
 
     @Override
     public String toString() {
         return "player id is " + this.id + " player username is " + this.username + " player has " + this.wins + " wins"
                 +
-                " and has played in " + this.gamesPlayed.size();
+                " and has played in " + this.gamePlayers.size() + " games.";
     }
-
 }
