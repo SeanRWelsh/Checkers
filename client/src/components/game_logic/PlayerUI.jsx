@@ -10,7 +10,7 @@ function PlayerUI({ gamePlayers, playerTurn }) {
           <div></div>
         )}
 
-        <div className="checker-piece red">
+        <div className={`checker-piece ${gamePlayers[0].color.toLowerCase()}`}>
           <div className="inner-circle"></div>
           <div className="small-circle"></div>
         </div>
@@ -22,7 +22,7 @@ function PlayerUI({ gamePlayers, playerTurn }) {
         ) : (
           <div></div>
         )}
-        <div className="checker-piece black">
+        <div className={`checker-piece ${gamePlayers[1].color.toLowerCase()}`}>
           <div className="inner-circle"></div>
           <div className="small-circle"></div>
         </div>

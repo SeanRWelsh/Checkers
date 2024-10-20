@@ -1,6 +1,7 @@
 package com.checkers.repositories;
 
 import com.checkers.models.Game;
+import com.checkers.models.Player;
 
 import java.util.List;
 import org.springframework.data.domain.Pageable;
@@ -13,10 +14,10 @@ public interface GameRepository extends JpaRepository<Game, Long> {
             select g
             from Game g
             join g.gamePlayers p
-            where g.status = 'IN_PROGRESS' and p.id = ?1
+            where g.status = 'IN_PROGRESS' and p.player = ?1
             order by g.startTime desc
             """)
-    List<Game> findMostRecentGame(Long userId, Pageable pageable);
+    List<Game> findMostRecentGame(Player player, Pageable pageable);
 
     // leaving this in just incase I decide to move back to a native query
     // @Query(value = """

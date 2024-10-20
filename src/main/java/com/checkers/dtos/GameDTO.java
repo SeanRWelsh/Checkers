@@ -1,13 +1,15 @@
 package com.checkers.dtos;
 
 import com.checkers.models.Game;
+import com.checkers.models.GamePlayer;
 import com.checkers.models.Piece;
-import com.checkers.models.Player;
 import com.checkers.models.enums.Status;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class GameDTO {
     private final long id;
@@ -15,7 +17,7 @@ public class GameDTO {
     private PlayerGameDTO winner;
     private LocalDateTime startTime;
     private LocalDateTime updatedAt;
-    private List<PlayerGameDTO> players;
+    private Set<GamePlayerDTO> players;
     private List<PieceDTO> pieces;
     private String player_turn;
 
@@ -26,9 +28,9 @@ public class GameDTO {
             this.winner = new PlayerGameDTO(game.getWinner());
         this.startTime = game.getStartTime();
         this.updatedAt = game.getUpdatedAt();
-        this.players = new ArrayList<>();
-        for (Player player : game.getGamePlayers()) {
-            this.players.add(new PlayerGameDTO(player));
+        this.players = new HashSet<>();
+        for (GamePlayer player : game.getGamePlayers()) {
+            this.players.add(new GamePlayerDTO(player));
         }
         this.pieces = new ArrayList<>();
         for (Piece piece : game.getPieces()) {
@@ -53,7 +55,7 @@ public class GameDTO {
         return updatedAt;
     }
 
-    public List<PlayerGameDTO> getPlayers() {
+    public Set<GamePlayerDTO> getPlayers() {
         return players;
     }
 

@@ -1,13 +1,16 @@
 package com.checkers.service;
 
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Set;
 
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import com.checkers.dtos.GameDTO;
 import com.checkers.models.Game;
+import com.checkers.models.GamePlayer;
 import com.checkers.models.Piece;
 import com.checkers.models.Player;
 import com.checkers.models.enums.PieceColor;
@@ -51,34 +54,42 @@ public class StartGameService {
         Player player1 = playerRepository.findPlayerByUsername(player1Username);
         Player player2 = playerRepository.findPlayerByUsername(player2Username);
         Game newGame = new Game();
-        newGame.addPlayer(player1);
-        newGame.addPlayer(player2);
+
+        // Create GamePlayer instances for both players
+        GamePlayer gamePlayer1 = new GamePlayer(player1, newGame, PieceColor.RED);
+        GamePlayer gamePlayer2 = new GamePlayer(player2, newGame, PieceColor.BLACK);
+
+        // Add GamePlayer instances to the game
+        newGame.addGamePlayer(gamePlayer1);
+        newGame.addGamePlayer(gamePlayer2);
+
         newGame.setPlayerTurn(player1);
-        createPieces(newGame, player1, player2);
+        createPieces(newGame, gamePlayer1, gamePlayer2);
 
         return gameRepository.save(newGame);
     }
 
-    private void createPieces(Game game, Player player1, Player player2) {
-        PieceColor pieceColor = PieceColor.RED;
-        Player player = player1;
+    private void createPieces(Game newGame, GamePlayer gamePlayer1, GamePlayer gamePlayer2) {
+        Set<Piece> pieces = new HashSet<>();
+        GamePlayer player = gamePlayer1;
         int column = 0;
 
         for (int row = 0; row <= 7; row++) {
             if (row % 2 != 0)
                 column = 1;
             while (column <= 7) {
-                Piece piece = new Piece(pieceColor, false, row, column, game, player);
-                game.addPiece(piece);
+                Piece piece = new Piece(player.getColor(), false, row, column, player.getGame(), player.getPlayer());
+                pieces.add(piece);
                 column += 2;
             }
             column = 0;
             if (row == 2) {
                 row = 4;
-                pieceColor = PieceColor.BLACK;
-                player = player2;
+                player = gamePlayer2;
             }
         }
+        newGame.setPieces(pieces);
+
     }
 
 }

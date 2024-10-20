@@ -6,9 +6,6 @@ import com.checkers.models.Player;
 import com.checkers.repositories.GameRepository;
 import com.checkers.repositories.PlayerRepository;
 import com.checkers.securityConfiguration.SecurityUser;
-import com.checkers.service.GameService;
-
-import jakarta.validation.constraints.NotNull;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -36,7 +33,7 @@ public class GameController {
         // game id then query for the game. also easy to modify this in the future to
         // send back a list of games they may want to resume.
         Pageable pageable = PageRequest.of(0, 1);
-        Game game = gameRepository.findMostRecentGame(player.getId(), pageable).get(0);
+        Game game = gameRepository.findMostRecentGame(player, pageable).get(0);
         return ResponseEntity.status(HttpStatus.OK).body(new GameDTO(game));
     }
 

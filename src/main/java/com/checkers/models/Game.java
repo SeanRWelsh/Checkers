@@ -4,9 +4,7 @@ import com.checkers.models.enums.Status;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -28,10 +26,8 @@ public class Game {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @ManyToMany
-    @JoinTable(name = "game_players", joinColumns = { @JoinColumn(name = "game_id") }, inverseJoinColumns = {
-            @JoinColumn(name = "player_id") })
-    private List<Player> gamePlayers = new ArrayList<>();
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    private Set<GamePlayer> gamePlayers = new HashSet<>();
 
     @ManyToOne
     @JoinColumn(name = "winner_id")
@@ -78,27 +74,19 @@ public class Game {
         this.updatedAt = updatedAt;
     }
 
-    public List<Player> getGamePlayers() {
+    public Set<GamePlayer> getGamePlayers() {
         return this.gamePlayers;
     }
 
-    public void addPlayer(Player player) {
-        System.out.println("adding player to Game " + player);
-        this.gamePlayers.add(player);
-        player.getGamesPlayed().add(this);
+    public void addGamePlayer(GamePlayer gamePlayer) {
+        System.out.println("adding player to Game " + gamePlayer);
+        this.gamePlayers.add(gamePlayer);
+        gamePlayer.setGame(this); // Set the game in the GamePlayer
     }
 
-    public void addPiece(Piece piece) {
-        this.pieces.add(piece);
-    }
-
-    public void removePiece(Piece piece) {
-        this.pieces.remove(piece);
-    }
-
-    public void removePlayer(Player player) {
-        this.gamePlayers.remove(player);
-        player.getGamesPlayed().remove(this);
+    public void removeGamePlayer(GamePlayer gamePlayer) {
+        this.gamePlayers.remove(gamePlayer);
+        gamePlayer.setGame(null); // Unset the game in the GamePlayer
     }
 
     public Player getPlayerTurn() {
@@ -107,21 +95,6 @@ public class Game {
 
     public void setPlayerTurn(Player player) {
         this.playerTurn = player;
-    }
-
-    public void setGamePlayers(List<Player> gamePlayers) {
-        this.gamePlayers = gamePlayers;
-    }
-
-    public String toString() {
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("game id ").append(getId()).append(" players: ");
-        for (Player gamePlayer : gamePlayers) {
-            stringBuilder.append(gamePlayer.getId()).append(", ");
-            stringBuilder.append(gamePlayer.getUsername()).append(", ");
-        }
-        stringBuilder.append((" players turn " + getPlayerTurn()));
-        return stringBuilder.toString();
     }
 
     public Player getWinner() {
@@ -138,5 +111,16 @@ public class Game {
 
     public void setPieces(Set<Piece> pieces) {
         this.pieces = pieces;
+    }
+
+    public String toString() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("game id ").append(getId()).append(" players: ");
+        for (GamePlayer gamePlayer : gamePlayers) {
+            stringBuilder.append(gamePlayer.getPlayer().getId()).append(", ");
+            stringBuilder.append(gamePlayer.getPlayer().getUsername()).append(", ");
+        }
+        stringBuilder.append(" players turn " + getPlayerTurn());
+        return stringBuilder.toString();
     }
 }

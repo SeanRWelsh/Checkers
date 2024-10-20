@@ -3,6 +3,7 @@ package com.checkers.service;
 import com.checkers.dtos.GameDTO;
 import com.checkers.dtos.MoveDTO;
 import com.checkers.models.Game;
+import com.checkers.models.GamePlayer;
 import com.checkers.models.Piece;
 import com.checkers.models.Player;
 import com.checkers.models.enums.PieceColor;
@@ -48,11 +49,15 @@ public class GameService {
             System.out.println("Illegal move bruh");
         }
 
-        List<Player> players = game.getGamePlayers();
+        Set<GamePlayer> gamePlayers = game.getGamePlayers();
+        for (GamePlayer gamePlayer : gamePlayers) {
+            if (gamePlayer.getPlayer().getUsername() != game.getPlayerTurn().getUsername()) {
+                game.setPlayerTurn(gamePlayer.getPlayer());
+                break;
+            }
+        }
         // switches what players turn it is. ENDED HERE START BY CHECKING WHAT
         // INFROMATION IS PASSED BACK IN MOVE DTO
-        game.setPlayerTurn(game.getPlayerTurn().equals(players.getFirst()) ? players.getLast() : players.getFirst());
-
         return new GameDTO(game);
 
     }
