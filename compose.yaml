@@ -1,0 +1,56 @@
+networks:
+  my-network:
+
+services:
+  #the top-level key in the Docker Compose file that defines the services (containers) that will be managed by Docker Compose. Each service corresponds to a container that will run your application.
+  backend:
+    #name of the service. can name it anything you like.
+    build:
+      #specifies the build instructions for the service. It tells Docker how to build the Docker image for the backend service.
+      context: . #defines the directory that contains the Dockerfile and other files needed for the build.
+    ports:
+      - 8080:8080
+    # volumes:
+    #   - ./src:/build
+    networks:
+      - my-network
+    depends_on:
+      #tells Docker Compose to start the database before your application
+      db:
+        condition: service_healthy #tells Docker Compose to wait until the db service is healthy before starting the backend service
+  db:
+    networks:
+      - my-network
+    image: postgres #Specifies the Docker image for PostgreSQL.
+    restart: always #Ensures the container restarts automatically if it crashes.
+    user: postgres #Runs the service under the postgres user.
+    secrets:
+      #Refers to a secret named db-password, which stores the PostgreSQL password securely.
+      - db-password
+    volumes:
+      - db-data:/var/lib/postgresql/data #defines the mounting of the volume db-data to a specific path inside the containe
+    environment:
+      - POSTGRES_DB=checkers #Specifies the name of the database to be created
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db-password #Uses the secret file to set the PostgreSQL password
+    expose:
+      - 5432 #Exposes port 5432 (the default PostgreSQL port) so that other services in the Docker network can communicate with the database.
+    healthcheck:
+      test: [ "CMD", "pg_isready" ] #Runs the command pg_isready to check if the PostgreSQL service is ready to accept connections.
+      interval: 10s #Runs the health check every 10 seconds.
+      timeout: 5s #The health check command must complete within 5 seconds.
+      retries: 5 # If the health check fails 5 times in a row, the service is considered unhealthy.
+  frontend:
+    build: ./client
+    ports:
+      - 3000:3000
+    # volumes:
+    #   - ./client:/app/src
+    networks:
+      - my-network
+    environment:
+      - VITE_API_URL=http://backend:8080
+volumes:
+  db-data: #where you declare the volume, telling Docker that db-data is a named volume.
+secrets:
+  db-password:
+    file: db/password.txt

@@ -9,9 +9,11 @@ function NavBar({ stompClient }) {
   const [isLogin, setIsLogin] = useState(false);
   const navigate = useNavigate();
   const { user, setUser } = useContext(UserContext);
+  const apiUrl = import.meta.env.VITE_API_URL;
+  console.log(apiUrl)
 
   const fetchCsrfToken = () => {
-    fetch("/api/csrf")
+    fetch(`${apiUrl}/csrf`)
       .then((r) => r.json())
       .then((r) => {
         setCsrfToken(r.token);

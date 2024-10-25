@@ -53,5 +53,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+password.txt
 
 application-dev.properties

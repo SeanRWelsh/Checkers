@@ -15,16 +15,16 @@ import org.springframework.security.web.authentication.logout.HttpStatusReturnin
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
+    
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .authorizeHttpRequests((authorize) -> authorize
-                        .requestMatchers("/player/login", "/player", "/csrf", "/player/signup").permitAll()
-                        .anyRequest().authenticated())
-                .securityContext((securityContext) -> securityContext.requireExplicitSave(false))
-                .logout((logout) -> logout.logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler()));
-
+        .authorizeHttpRequests((authorize) -> authorize
+        .requestMatchers("/player/login", "/player", "/csrf", "/player/signup").permitAll()
+        .anyRequest().authenticated())
+        .securityContext((securityContext) -> securityContext.requireExplicitSave(false))
+        .logout((logout) -> logout.logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler()));
+        
         return http.build();
     }
 
